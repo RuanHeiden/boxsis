@@ -5,7 +5,6 @@ class LoginRegisterProvider with ChangeNotifier{
   bool telaDeCadastro = false;
 
   void AbrirOuFecharTelaDeCadastro(){
-    print('telaDeCadastro $telaDeCadastro');
     telaDeCadastro = !telaDeCadastro;
     notifyListeners();
   }

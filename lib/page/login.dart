@@ -1,6 +1,9 @@
 import 'package:boxsis/provider/login_register_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+FirebaseAuth _auth = FirebaseAuth.instance;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -70,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-
+                              ///Verifica se é tela de cadastro ou login
                               !context.watch<LoginRegisterProvider>().telaDeCadastro
                                   ? widgetDeLogin(context, _emailLoginController, _senhaLoginController, _formKeyLogin)
                               :widgetCadastro(context, _nomeCadastroController, _emailCadastroController, _idadeCadastroController, _senhaCadastroController, _formKeyCadastroUsuario ),
@@ -121,6 +124,7 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
       const SizedBox(
         height: 10,
       ),
+      ///Title "Login"
       Row(
         children: [
           Icon(
@@ -138,6 +142,7 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
         ],
       ),
       const SizedBox(height: 30),
+      ///Text 'Email'
       Align(
         alignment: Alignment.centerLeft,
         child: Text(
@@ -148,6 +153,7 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
       const SizedBox(
         height: 5,
       ),
+      ///TextField 'Email'
       TextFormField(
         obscureText: false,
         controller: emailLoginController,
@@ -167,6 +173,7 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
       const SizedBox(
         height: 20,
       ),
+      ///Text 'Senha'
       Align(
         alignment: Alignment.centerLeft,
         child: Text(
@@ -177,8 +184,10 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
       const SizedBox(
         height: 5,
       ),
+
+      ///TextField 'Senha'
       TextFormField(
-        obscureText: false,
+        obscureText: true,
         controller: senhaLoginController,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
@@ -225,6 +234,8 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
 
 /// Componentes de Cadastro de usuario
 Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroController, TextEditingController emailCadastroController, TextEditingController idadeCadastroController, TextEditingController senhaCadastroController, GlobalKey<FormState> formKeyCadastroUsuario){
+
+
   return Form(
     key: formKeyCadastroUsuario,
     child: Column(
@@ -341,7 +352,7 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
           height: 5,
         ),
         TextFormField(
-          obscureText: false,
+          obscureText: true,
           controller: senhaCadastroController,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
@@ -371,8 +382,8 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Usuario cadastra')),
                   );
-
-                  print('teste');
+                  ///Cadastrando Usuario
+                  CadastraUsuario(emailCadastroController.text, senhaCadastroController.text);
                 }
               },
               child:  Padding(
@@ -389,3 +400,16 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
     ),
   );
 }
+
+
+///Cadastrando usuario
+CadastraUsuario(String email, String senha) async{
+  await _auth.createUserWithEmailAndPassword(
+      email: email, password: senha
+  ).then((auth){
+    ///Identificando o id do usuario cadatrado para fazer o cadastro do demais dados do usuario como (nome completo e idade)
+    String? idUsuario = auth.user?.uid;
+    print('idUsuario $idUsuario');
+  });
+}
+
