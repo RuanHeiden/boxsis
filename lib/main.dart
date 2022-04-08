@@ -1,5 +1,6 @@
 import 'package:boxsis/page/login.dart';
 import 'package:boxsis/provider/login_register_provider.dart';
+import 'package:boxsis/uteis/rotas.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,20 +26,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Deposito Flutter',
-      theme: ThemeData(
-          primarySwatch: Colors.yellow,
-          secondaryHeaderColor: const Color.fromARGB(40, 254, 222, 93),
-          primaryColorLight: const Color.fromARGB(255, 255, 255, 255),
-          primaryColorDark: Colors.black45
-      ),
-      home: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => LoginRegisterProvider()),
-          ],
-          child: LoginPage()),
-      //2 home: CreateUser(),
+    return MultiProvider(
+      providers: [
+          ChangeNotifierProvider(create: (_) => LoginRegisterProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Deposito Flutter',
+        theme: ThemeData(
+            primarySwatch: Colors.yellow,
+            secondaryHeaderColor: const Color.fromARGB(40, 254, 222, 93),
+            primaryColorLight: const Color.fromARGB(255, 255, 255, 255),
+            primaryColorDark: Colors.black45
+        ),
+        initialRoute: "/",
+        onGenerateRoute: Rotas.gerarRota,
+      )
     );
   }
 }
