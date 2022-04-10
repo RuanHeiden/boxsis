@@ -1,4 +1,4 @@
-import 'package:boxsis/page/home.dart';
+import 'package:boxsis/page/home/home.dart';
 import 'package:boxsis/page/login.dart';
 import 'package:flutter/material.dart';
 

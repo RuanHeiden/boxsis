@@ -1,5 +1,6 @@
 import 'package:boxsis/modelos/usuario.dart';
 import 'package:boxsis/provider/login_register_provider.dart';
+import 'package:boxsis/themes/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +28,23 @@ class _LoginPageState extends State<LoginPage> {
   final _senhaCadastroController = TextEditingController();
 
 
+  ///Verifica se o usuario esta logado, se tiver logado envie o usuario para tela Home page
+  _verificarUsuarioLogado() async{
+    User? usuarioLogado = await _auth.currentUser;
+
+    if(usuarioLogado != null){
+      Navigator.pushReplacementNamed(context, "/home");
+    }
+  }
+
+
   bool _cadastroUsuario = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _verificarUsuarioLogado();
   }
 
   @override
@@ -46,17 +58,17 @@ class _LoginPageState extends State<LoginPage> {
         .size
         .width;
     return Scaffold(
-      backgroundColor: MediaWeigth < 800 ? Theme
-          .of(context)
-          .primaryColorLight : Theme
-          .of(context)
-          .secondaryHeaderColor,
+      backgroundColor: MediaWeigth < 800
+         // ? Theme.of(context).primaryColorLight
+        //: Theme.of(context).secondaryHeaderColor,
+      ? Colors.transparent
+      : PaletaCores.corAmareloFraca,
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-            Container(
+                   Container(
               width: MediaWeigth > 1050
                   ? 450
                   : MediaWeigth < 800
@@ -75,8 +87,11 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.all(20.0),
                 child: ListView(
                   children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Container(
-                      height: 200,
+                      height: 150,
                       padding: const EdgeInsets.all(5),
                       child: Image.asset('img/logo_amarela.png'),
                     ),
@@ -141,12 +156,12 @@ class _LoginPageState extends State<LoginPage> {
 ///Componentes de Login do usuario
 Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKeyLogin) {
   return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      const SizedBox(
-        height: 10,
-      ),
-
       ///Title "Login"
+
+      const SizedBox(height: 30),
       Row(
         children: [
           Icon(
@@ -170,15 +185,15 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
       const SizedBox(height: 30),
 
       ///Text 'Email'
-      Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          '  E-mail',
-          style: TextStyle(color: Theme
-              .of(context)
-              .primaryColorDark, fontSize: 16),
-        ),
-      ),
+      // Align(
+      //   alignment: Alignment.centerLeft,
+      //   child: Text(
+      //     '  E-mail',
+      //     style: TextStyle(color: Theme
+      //         .of(context)
+      //         .primaryColorDark, fontSize: 16),
+      //   ),
+      // ),
       const SizedBox(
         height: 5,
       ),
@@ -194,7 +209,7 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
                 .of(context)
                 .primaryColorDark,
           ),
-          labelText: 'Informe seu E-mail',
+          labelText: 'E-mail',
         ),
         cursorColor: Colors.black54,
         keyboardType: TextInputType.emailAddress,
@@ -207,18 +222,16 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
       ),
 
       ///Text 'Senha'
-      Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          '  Senha',
-          style: TextStyle(color: Theme
-              .of(context)
-              .primaryColorDark, fontSize: 16),
-        ),
-      ),
-      const SizedBox(
-        height: 5,
-      ),
+      // Align(
+      //   alignment: Alignment.centerLeft,
+      //   child: Text(
+      //     '  Senha',
+      //     style: TextStyle(color: Theme
+      //         .of(context)
+      //         .primaryColorDark, fontSize: 16),
+      //   ),
+      // ),
+
 
       ///TextField 'Senha'
       TextFormField(
@@ -229,7 +242,7 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
           labelStyle: TextStyle(color: Theme
               .of(context)
               .primaryColorDark),
-          labelText: 'Informe sua senha',
+          labelText: 'Senha',
         ),
         cursorColor: Colors.black54,
         keyboardType: TextInputType.emailAddress,

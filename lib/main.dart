@@ -31,7 +31,11 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => LoginRegisterProvider()),
       ],
       child: MaterialApp(
+
+        debugShowCheckedModeBanner: false,
         title: 'Deposito Flutter',
+
+        ///Colors primárias para inicialização de cores
         theme: ThemeData(
             primarySwatch: Colors.yellow,
             secondaryHeaderColor: const Color.fromARGB(40, 254, 222, 93),
