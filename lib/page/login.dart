@@ -27,16 +27,14 @@ class _LoginPageState extends State<LoginPage> {
   final _emailCadastroController = TextEditingController();
   final _senhaCadastroController = TextEditingController();
 
-
   ///Verifica se o usuario esta logado, se tiver logado envie o usuario para tela Home page
-  _verificarUsuarioLogado() async{
+  _verificarUsuarioLogado() async {
     User? usuarioLogado = await _auth.currentUser;
 
-    if(usuarioLogado != null){
+    if (usuarioLogado != null) {
       Navigator.pushReplacementNamed(context, "/home");
     }
   }
-
 
   bool _cadastroUsuario = false;
 
@@ -49,37 +47,29 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    var MediaHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
-    var MediaWeigth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    var MediaHeight = MediaQuery.of(context).size.height;
+    var MediaWeigth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: MediaWeigth < 800
-         // ? Theme.of(context).primaryColorLight
-        //: Theme.of(context).secondaryHeaderColor,
-      ? Colors.transparent
-      : PaletaCores.corAmareloFraca,
-
+          // ? Theme.of(context).primaryColorLight
+          //: Theme.of(context).secondaryHeaderColor,
+          ? Colors.transparent
+          : PaletaCores.corAmareloFraca,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-                   Container(
+            MediaHeight > 600
+                ? Container(
               width: MediaWeigth > 1050
                   ? 450
                   : MediaWeigth < 800
-                  ? MediaWeigth
-                  : MediaWeigth / 2,
+                      ? MediaWeigth
+                      : MediaWeigth / 2,
               height: MediaWeigth > 1050 ? 600 : MediaHeight,
               decoration: BoxDecoration(
                   boxShadow: const <BoxShadow>[BoxShadow(color: Colors.black45, blurRadius: 15.0, offset: Offset(5.9, 5.75))],
-                  color: Theme
-                      .of(context)
-                      .primaryColorLight,
+                  color: Theme.of(context).primaryColorLight,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(20),
                   )),
@@ -104,11 +94,8 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-
                               ///Verifica se é tela de cadastro ou login
-                              !context
-                                  .watch<LoginRegisterProvider>()
-                                  .telaDeCadastro
+                              !context.watch<LoginRegisterProvider>().telaDeCadastro
                                   ? widgetDeLogin(context, _emailLoginController, _senhaLoginController, _formKeyLogin)
                                   : widgetCadastro(context, _nomeCadastroController, _emailCadastroController, _idadeCadastroController, _senhaCadastroController, _formKeyCadastroUsuario),
 
@@ -124,9 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
                                     child: Text(
-                                      !context
-                                          .watch<LoginRegisterProvider>()
-                                          .telaDeCadastro ? 'Cadastra-se' : 'Login',
+                                      !context.watch<LoginRegisterProvider>().telaDeCadastro ? 'Cadastra-se' : 'Login',
                                       style: TextStyle(
                                         color: Colors.grey.shade500,
                                       ),
@@ -145,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-            ),
+            ) : Container(),
           ],
         ),
       ),
@@ -166,34 +151,19 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
         children: [
           Icon(
             Icons.lock,
-            color: Theme
-                .of(context)
-                .primaryColorDark,
+            color: Theme.of(context).primaryColorDark,
             size: 20,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               'Login',
-              style: TextStyle(fontSize: 20, color: Theme
-                  .of(context)
-                  .primaryColorDark),
+              style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark),
             ),
           ),
         ],
       ),
       const SizedBox(height: 30),
-
-      ///Text 'Email'
-      // Align(
-      //   alignment: Alignment.centerLeft,
-      //   child: Text(
-      //     '  E-mail',
-      //     style: TextStyle(color: Theme
-      //         .of(context)
-      //         .primaryColorDark, fontSize: 16),
-      //   ),
-      // ),
       const SizedBox(
         height: 5,
       ),
@@ -205,9 +175,7 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelStyle: TextStyle(
-            color: Theme
-                .of(context)
-                .primaryColorDark,
+            color: Theme.of(context).primaryColorDark,
           ),
           labelText: 'E-mail',
         ),
@@ -221,27 +189,13 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
         height: 20,
       ),
 
-      ///Text 'Senha'
-      // Align(
-      //   alignment: Alignment.centerLeft,
-      //   child: Text(
-      //     '  Senha',
-      //     style: TextStyle(color: Theme
-      //         .of(context)
-      //         .primaryColorDark, fontSize: 16),
-      //   ),
-      // ),
-
-
       ///TextField 'Senha'
       TextFormField(
         obscureText: true,
         controller: senhaLoginController,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
-          labelStyle: TextStyle(color: Theme
-              .of(context)
-              .primaryColorDark),
+          labelStyle: TextStyle(color: Theme.of(context).primaryColorDark),
           labelText: 'Senha',
         ),
         cursorColor: Colors.black54,
@@ -260,10 +214,6 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
           child: ElevatedButton(
             onPressed: () {
               if (formKeyLogin.currentState!.validate()) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Processo de Login iniciado')),
-                );
-
                 LoginUsuario(context, emailLoginController.text.toString(), senhaLoginController.text.toString());
               }
             },
@@ -271,9 +221,7 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
               padding: EdgeInsets.all(8.0),
               child: Text(
                 'Entrar',
-                style: TextStyle(color: Theme
-                    .of(context)
-                    .primaryColorDark, fontSize: 18),
+                style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 18),
               ),
             ),
           ),
@@ -282,7 +230,6 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
     ],
   );
 }
-
 
 /// Componentes de Cadastro de usuario
 Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroController, TextEditingController emailCadastroController, TextEditingController idadeCadastroController,
@@ -300,29 +247,22 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
           children: [
             Icon(
               Icons.people_alt,
-              color: Theme
-                  .of(context)
-                  .primaryColorDark,
+              color: Theme.of(context).primaryColorDark,
               size: 28,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 'Cadastre-se',
-                style: TextStyle(fontSize: 20, color: Theme
-                    .of(context)
-                    .primaryColorDark),
+                style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark),
               ),
             ),
           ],
         ),
         const SizedBox(height: 30),
-
         Text(
           '  Informe um Nome',
-          style: TextStyle(color: Theme
-              .of(context)
-              .primaryColorDark, fontSize: 16),
+          style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 16),
         ),
         const SizedBox(
           height: 5,
@@ -333,9 +273,7 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelStyle: TextStyle(
-              color: Theme
-                  .of(context)
-                  .primaryColorDark,
+              color: Theme.of(context).primaryColorDark,
             ),
             labelText: 'Nome',
           ),
@@ -348,12 +286,9 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
         const SizedBox(
           height: 20,
         ),
-
         Text(
           '  Informe uma Idade',
-          style: TextStyle(color: Theme
-              .of(context)
-              .primaryColorDark, fontSize: 16),
+          style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 16),
         ),
         const SizedBox(
           height: 5,
@@ -364,9 +299,7 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelStyle: TextStyle(
-              color: Theme
-                  .of(context)
-                  .primaryColorDark,
+              color: Theme.of(context).primaryColorDark,
             ),
             labelText: 'Idade',
           ),
@@ -379,12 +312,9 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
         const SizedBox(
           height: 20,
         ),
-
         Text(
           '  Informe um E-mail',
-          style: TextStyle(color: Theme
-              .of(context)
-              .primaryColorDark, fontSize: 16),
+          style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 16),
         ),
         const SizedBox(
           height: 5,
@@ -395,9 +325,7 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelStyle: TextStyle(
-              color: Theme
-                  .of(context)
-                  .primaryColorDark,
+              color: Theme.of(context).primaryColorDark,
             ),
             labelText: 'E-mail',
           ),
@@ -410,12 +338,9 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
         const SizedBox(
           height: 20,
         ),
-
         Text(
           '  Informe uma Senha',
-          style: TextStyle(color: Theme
-              .of(context)
-              .primaryColorDark, fontSize: 16),
+          style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 16),
         ),
         const SizedBox(
           height: 5,
@@ -426,9 +351,7 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelStyle: TextStyle(
-              color: Theme
-                  .of(context)
-                  .primaryColorDark,
+              color: Theme.of(context).primaryColorDark,
             ),
             labelText: 'Senha',
           ),
@@ -441,13 +364,11 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
         const SizedBox(
           height: 20,
         ),
-
         Container(
           alignment: Alignment.centerRight,
           //color: Colors.blue,
           child: InkWell(
             child: ElevatedButton(
-
               onPressed: () {
                 if (formKeyCadastroUsuario.currentState!.validate()) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -462,9 +383,7 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Cadastrar',
-                  style: TextStyle(color: Theme
-                      .of(context)
-                      .primaryColorDark, fontSize: 18),
+                  style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 18),
                 ),
               ),
             ),
@@ -475,46 +394,48 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
   );
 }
 
-
 ///Cadastrando usuario
 CadastraUsuario(BuildContext context, String email, String senha, String nome, String idade) async {
-  await _auth.createUserWithEmailAndPassword(
-      email: email, password: senha
-  ).then((auth) {
-    ///Identificando o id do usuario cadatrado para fazer o cadastro do demais dados do usuario como (nome completo e idade)
-    String? idUsuario = auth.user?.uid;
-    print('idUsuario $idUsuario');
+  await _auth.createUserWithEmailAndPassword(email: email, password: senha).then(
+    (auth) {
+      ///Identificando o id do usuario cadatrado para fazer o cadastro do demais dados do usuario como (nome completo e idade)
+      String? idUsuario = auth.user?.uid;
+      print('idUsuario $idUsuario');
 
-    Usuario usuario = Usuario(
-      auth.user?.uid ?? '',
-      nome,
-      auth.user?.email ?? '',
-      idade,
-    );
-
-    GravaRestanteDosDadosDoUsuario(context, usuario);
-
-
-  });
+      Usuario usuario = Usuario(
+        auth.user?.uid ?? '',
+        nome,
+        auth.user?.email ?? '',
+        idade,
+      );
+      GravaRestanteDosDadosDoUsuario(context, usuario);
+    },
+  );
 }
+
 GravaRestanteDosDadosDoUsuario(BuildContext context, Usuario usuario) {
   final usuarioRef = _firebaseFirestore.collection('usuarios');
-  usuarioRef.doc(usuario.idUsuario).set(usuario.toMap()).then((value){
+  usuarioRef.doc(usuario.idUsuario).set(usuario.toMap()).then((value) {
     print('Entro no then !!!');
-  }).then((value){
-  });
+  }).then((value) {});
 }
-
 
 LoginUsuario(BuildContext context, String email, String senha) async {
-  await _auth.signInWithEmailAndPassword(email: email, password: senha).then((auth) {
-    String? emailUsuario = auth.user?.uid;
-  }).then((value){
+  try {
+    await _auth.signInWithEmailAndPassword(email: email, password: senha).then((auth) {
+      String? emailUsuario = auth.user?.uid;
+    }).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Processo de Login iniciado')),
+      );
 
-    ///Navegando para tela de home page
-    Navigator.pushReplacementNamed(context, "/home");
-  });
+      ///Navegando para tela de home page
+      Navigator.pushReplacementNamed(context, "/home");
+    });
+  } catch (e, s) {
+    print('e $e');
+    return ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('E-mail ou senha invalido.')),
+    );
+  }
 }
-
-
-

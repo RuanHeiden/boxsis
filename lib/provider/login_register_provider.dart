@@ -8,6 +8,4 @@ class LoginRegisterProvider with ChangeNotifier{
     telaDeCadastro = !telaDeCadastro;
     notifyListeners();
   }
-
-
 }
