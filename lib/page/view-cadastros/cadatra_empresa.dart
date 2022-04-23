@@ -1,6 +1,7 @@
 import 'package:boxsis/view/button/button_average_title_icon_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 ModalCadastraEmpresa(BuildContext context) {
 
@@ -38,21 +39,27 @@ ModalCadastraEmpresa(BuildContext context) {
                         ),
                       ),
                     ),
-                    TextFieldCadastro('Nome', _nomeEmpresaController),
-                    TextFieldCadastro('Nome Fantasia', _nomeFantasiaEmpresaController),
-                    TextFieldCadastro('Descrição', _descricaoEmpresaController),
-                    TextFieldCadastro('CNPJ', _cnpjEmpresaController),
-                    TextFieldCadastro('Telefone', _telefoneEmpresaController),
-                    TextFieldCadastro('Segmento', _segmentoEmpresaController),
-                    TextFieldCadastro('Endereço', _enderecoEmpresaController),
-                    TextFieldCadastro('Total Funcionarios', _numeroFuncionariosEmpresaController),
+                    TextFieldCadastro('Nome', _nomeEmpresaController, TextInputType.text, true),
+                    TextFieldCadastro('Nome Fantasia', _nomeFantasiaEmpresaController, TextInputType.text, true),
+                    TextFieldCadastro('Descrição', _descricaoEmpresaController, TextInputType.text, false),
+                    TextFieldCadastro('CNPJ', _cnpjEmpresaController, TextInputType.number, false),
+                    TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, true),
+                    TextFieldCadastro('Segmento', _segmentoEmpresaController, TextInputType.text, false),
+                    TextFieldCadastro('Endereço', _enderecoEmpresaController, TextInputType.text, false),
+                    TextFieldCadastro('Total Funcionarios', _numeroFuncionariosEmpresaController, TextInputType.number, false),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 5),
                       child: Container(
                           width: 140,
                           height: 40,
                           child: InkWell(
-                            onTap: (){},
+                            onTap: (){
+                              if(_formKeyCadastraEmpresa.currentState!.validate()){
+
+                              }else{
+
+                              }
+                            },
                             child: buttonAverageTitleIconColor(
                               name: 'Cadastrar',
                               iconDoButton: Icons.add_business,
@@ -122,11 +129,11 @@ ModalCadastraEmpresa(BuildContext context) {
   );
 }
 
-Widget TextFieldCadastro(String nameText, TextEditingController numeroFuncionariosEmpresaController) {
+Widget TextFieldCadastro(String nameText, TextEditingController numeroFuncionariosEmpresaController, TextInputType typeText, bool mandatory) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
     //width: 350,
-    height: 50,
+    // /height: 50,
     child: TextFormField(
       obscureText: false,
       controller: numeroFuncionariosEmpresaController,
@@ -138,9 +145,33 @@ Widget TextFieldCadastro(String nameText, TextEditingController numeroFuncionari
         labelText: nameText.toString(),
 
       ),
-      validator: (text) {
+      keyboardType:typeText,
+      validator:
+      mandatory
+      ? (text) {
         if (text!.isEmpty) return "Informe um ${nameText} !";
-      },
+      }
+      :null,
     ),
   );
 }
+
+/*
+  * TextFormField(
+    obscureText: false,
+    controller: emailLoginController,
+    decoration: InputDecoration(
+      border: OutlineInputBorder(),
+      labelStyle: TextStyle(
+        color: Theme.of(context).primaryColorDark,
+      ),
+      labelText: 'E-mail',
+    ),
+    cursorColor: Colors.black54,
+    keyboardType: TextInputType.emailAddress,
+    validator: (text) {
+      if (text!.isEmpty || !text.contains('@')) return "Informe um E-mail valido !";
+    },
+  ),
+*
+* */

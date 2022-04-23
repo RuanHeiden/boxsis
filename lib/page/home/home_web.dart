@@ -118,7 +118,8 @@ class _HomeWebState extends State<HomeWeb> {
                             blurRadius: 7,
                             offset: const Offset(0, 3), // changes position of shadow
                           ),
-                        ]),
+                        ],
+                    ),
                     child: Column(
                       children: [
                         TopContainerCenterPage(context, Icons.apartment_outlined, 'Lista de Empresas'),
