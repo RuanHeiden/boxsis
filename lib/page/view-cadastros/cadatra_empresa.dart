@@ -1,10 +1,11 @@
+import 'package:boxsis/modelos/empresa.dart';
+import 'package:boxsis/services/firebase/data.dart';
 import 'package:boxsis/view/button/button_average_title_icon_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ModalCadastraEmpresa(BuildContext context) {
-
   final _formKeyCadastraEmpresa = GlobalKey<FormState>();
   final _nomeEmpresaController = TextEditingController();
   final _nomeFantasiaEmpresaController = TextEditingController();
@@ -50,25 +51,41 @@ ModalCadastraEmpresa(BuildContext context) {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 5),
                       child: Container(
-                          width: 140,
-                          height: 40,
-                          child: InkWell(
-                            onTap: (){
-                              if(_formKeyCadastraEmpresa.currentState!.validate()){
-
-                              }else{
-
-                              }
-                            },
-                            child: buttonAverageTitleIconColor(
-                              name: 'Cadastrar',
-                              iconDoButton: Icons.add_business,
-                              corDoTexto: Colors.white,
-                              corDoIcon: Colors.white,
-                              corDoBotao: Colors.blue,
-                            ),
+                        width: 140,
+                        height: 40,
+                        child: InkWell(
+                          onTap: () {
+                            if (_formKeyCadastraEmpresa.currentState!.validate()) {
+                              print('Nome ${_nomeEmpresaController.text}');
+                              print('Nome Fantasia ${_nomeFantasiaEmpresaController.text}');
+                              print('Descrição ${_descricaoEmpresaController.text}');
+                              print('CNPJ ${_cnpjEmpresaController.text}');
+                              print('Segmento ${_segmentoEmpresaController.text}');
+                              print('Endereço ${_enderecoEmpresaController.text}');
+                              print('Funcionarios ${_numeroFuncionariosEmpresaController.text}');
+                              CadastraEmpresa(
+                                context,
+                                _nomeEmpresaController.text,
+                                _nomeFantasiaEmpresaController.text,
+                                _descricaoEmpresaController.text,
+                                _cnpjEmpresaController.text,
+                                _segmentoEmpresaController.text,
+                                _enderecoEmpresaController.text,
+                                _numeroFuncionariosEmpresaController.text,
+                              );
+                            } else {
+                              ///TRATAR
+                            }
+                          },
+                          child: buttonAverageTitleIconColor(
+                            name: 'Cadastrar',
+                            iconDoButton: Icons.add_business,
+                            corDoTexto: Colors.white,
+                            corDoIcon: Colors.white,
+                            corDoBotao: Colors.blue,
                           ),
                         ),
+                      ),
                     )
                   ],
                 ),
@@ -129,6 +146,29 @@ ModalCadastraEmpresa(BuildContext context) {
   );
 }
 
+///Pegando os dados informados pelo usuario e montando o objeto empresa para iniciar o cadastro
+CadastraEmpresa(
+  BuildContext context,
+  String nomeEmpresa,
+  String nomeFantasia,
+  String descricao,
+  String cnpj,
+  String segmento,
+  String endereco,
+  String numeroFuncionario,
+) {
+  Empresa empresa = Empresa(
+    nomeEmpresa,
+    nomeFantasia,
+    descricao,
+    cnpj,
+    segmento,
+    endereco,
+    numeroFuncionario,
+  );
+  GravaEmpresa(context, empresa);
+}
+
 Widget TextFieldCadastro(String nameText, TextEditingController numeroFuncionariosEmpresaController, TextInputType typeText, bool mandatory) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
@@ -143,35 +183,13 @@ Widget TextFieldCadastro(String nameText, TextEditingController numeroFuncionari
           color: Colors.black54,
         ),
         labelText: nameText.toString(),
-
       ),
-      keyboardType:typeText,
-      validator:
-      mandatory
-      ? (text) {
-        if (text!.isEmpty) return "Informe um ${nameText} !";
-      }
-      :null,
+      keyboardType: typeText,
+      validator: mandatory
+          ? (text) {
+              if (text!.isEmpty) return "Informe um ${nameText} !";
+            }
+          : null,
     ),
   );
 }
-
-/*
-  * TextFormField(
-    obscureText: false,
-    controller: emailLoginController,
-    decoration: InputDecoration(
-      border: OutlineInputBorder(),
-      labelStyle: TextStyle(
-        color: Theme.of(context).primaryColorDark,
-      ),
-      labelText: 'E-mail',
-    ),
-    cursorColor: Colors.black54,
-    keyboardType: TextInputType.emailAddress,
-    validator: (text) {
-      if (text!.isEmpty || !text.contains('@')) return "Informe um E-mail valido !";
-    },
-  ),
-*
-* */
