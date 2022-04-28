@@ -4,6 +4,7 @@ class Empresa{
     String nomeFantasia;
     String descricao;
     String cnpj;
+    String telefone;
     String segmento;
     String endereco;
     String numeroFuncionario;
@@ -13,6 +14,7 @@ class Empresa{
         this.nomeFantasia,
         this.descricao,
         this.cnpj,
+        this.telefone,
         this.segmento,
         this.endereco,
         this.numeroFuncionario
@@ -24,6 +26,7 @@ class Empresa{
         "nomeFantasia" : nomeFantasia,
         "descricao" : descricao,
         "cnpj" : cnpj,
+        "telefone" : telefone,
         "segmento" : segmento,
         "numeroFuncionario" : numeroFuncionario,
       };

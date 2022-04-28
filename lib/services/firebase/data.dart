@@ -16,17 +16,23 @@ GravaRestanteDosDadosDoUsuario(BuildContext context, Usuario usuario) {
 }
 
 ///Grava empresa
-GravaEmpresa(BuildContext context, Empresa empresa){
+Future<bool> GravaEmpresa(BuildContext context, Empresa empresa) async{
   ///Verifica Login
-  print(_auth.currentUser?.uid);
 
-  //var timeNow = DateTime.now();
-  final timeTicksNow = DateTime.now().millisecondsSinceEpoch;
+  try{
+    print(_auth.currentUser?.uid);
 
-  String? idAuth = _auth.currentUser?.uid;
-  final usuarioRef = _firebaseFirestore.collection('usuarios').doc(idAuth);
-  usuarioRef.collection('Empresa').doc(timeTicksNow.toString()).set(empresa.toMap()).then((value){
-    print('Entro no then !!!');
-  });
+    final timeTicksNow = DateTime.now().millisecondsSinceEpoch;
+
+    String? idAuth = _auth.currentUser?.uid;
+    final usuarioRef = _firebaseFirestore.collection('usuarios').doc(idAuth);
+    await usuarioRef.collection('Empresa').doc(timeTicksNow.toString()).set(empresa.toMap());
+
+    return true;
+  }catch(e){
+    print('Algo de errado na tela de cadastro da empresa');
+    return false;
+  }
+
 
 }

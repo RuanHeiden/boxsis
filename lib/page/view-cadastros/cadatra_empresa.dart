@@ -43,8 +43,8 @@ ModalCadastraEmpresa(BuildContext context) {
                     TextFieldCadastro('Nome', _nomeEmpresaController, TextInputType.text, true),
                     TextFieldCadastro('Nome Fantasia', _nomeFantasiaEmpresaController, TextInputType.text, true),
                     TextFieldCadastro('Descrição', _descricaoEmpresaController, TextInputType.text, false),
-                    TextFieldCadastro('CNPJ', _cnpjEmpresaController, TextInputType.number, false),
-                    TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, true),
+                    TextFieldCadastro('CNPJ', _cnpjEmpresaController, TextInputType.number, true),
+                    TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, false),
                     TextFieldCadastro('Segmento', _segmentoEmpresaController, TextInputType.text, false),
                     TextFieldCadastro('Endereço', _enderecoEmpresaController, TextInputType.text, false),
                     TextFieldCadastro('Total Funcionarios', _numeroFuncionariosEmpresaController, TextInputType.number, false),
@@ -56,19 +56,13 @@ ModalCadastraEmpresa(BuildContext context) {
                         child: InkWell(
                           onTap: () {
                             if (_formKeyCadastraEmpresa.currentState!.validate()) {
-                              print('Nome ${_nomeEmpresaController.text}');
-                              print('Nome Fantasia ${_nomeFantasiaEmpresaController.text}');
-                              print('Descrição ${_descricaoEmpresaController.text}');
-                              print('CNPJ ${_cnpjEmpresaController.text}');
-                              print('Segmento ${_segmentoEmpresaController.text}');
-                              print('Endereço ${_enderecoEmpresaController.text}');
-                              print('Funcionarios ${_numeroFuncionariosEmpresaController.text}');
                               CadastraEmpresa(
                                 context,
                                 _nomeEmpresaController.text,
                                 _nomeFantasiaEmpresaController.text,
                                 _descricaoEmpresaController.text,
                                 _cnpjEmpresaController.text,
+                                _telefoneEmpresaController.text,
                                 _segmentoEmpresaController.text,
                                 _enderecoEmpresaController.text,
                                 _numeroFuncionariosEmpresaController.text,
@@ -153,20 +147,34 @@ CadastraEmpresa(
   String nomeFantasia,
   String descricao,
   String cnpj,
+  String telefone,
   String segmento,
   String endereco,
   String numeroFuncionario,
-) {
+) async {
   Empresa empresa = Empresa(
     nomeEmpresa,
     nomeFantasia,
     descricao,
     cnpj,
+    telefone,
     segmento,
     endereco,
     numeroFuncionario,
   );
-  GravaEmpresa(context, empresa);
+  await GravaEmpresa(context, empresa).then((value){
+    if(value){
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Empresa cadastrada com sucesso !')),
+      );
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Informe os dados corretamente para efetuar o cadastro da empresa !')),
+      );
+    }
+    //value == true ? Navigator.pop(context) : null;
+  });
 }
 
 Widget TextFieldCadastro(String nameText, TextEditingController numeroFuncionariosEmpresaController, TextInputType typeText, bool mandatory) {
