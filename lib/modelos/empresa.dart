@@ -32,5 +32,4 @@ class Empresa{
       };
       return map;
     }
-
 }

@@ -1,9 +1,11 @@
 import 'package:boxsis/modelos/empresa.dart';
+import 'package:boxsis/provider/home_empresa.dart';
 import 'package:boxsis/services/firebase/data.dart';
 import 'package:boxsis/view/button/button_average_title_icon_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 ModalCadastraEmpresa(BuildContext context) {
   final _formKeyCadastraEmpresa = GlobalKey<FormState>();
@@ -67,6 +69,8 @@ ModalCadastraEmpresa(BuildContext context) {
                                 _enderecoEmpresaController.text,
                                 _numeroFuncionariosEmpresaController.text,
                               );
+
+                              Provider.of<HomeProvicer>(context,listen: false).AtualizaListaDeEmpresasProvider();
                             } else {
                               ///TRATAR
                             }

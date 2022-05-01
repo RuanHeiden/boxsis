@@ -1,4 +1,7 @@
 import 'package:boxsis/page/view-cadastros/cadatra_empresa.dart';
+import 'package:boxsis/provider/home_empresa.dart';
+import 'package:boxsis/services/busca_empresas_cadastrada.dart';
+import 'package:boxsis/services/firebase/data.dart';
 import 'package:boxsis/themes/colors.dart';
 import 'package:boxsis/view/block_logo_line.dart';
 import 'package:boxsis/view/button/button_average_title_icon_color.dart';
@@ -6,18 +9,25 @@ import 'package:boxsis/view/button/button_small.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
 import '../../view/button/button_top_menu.dart';
 
 class HomeWeb extends StatefulWidget {
   const HomeWeb({Key? key}) : super(key: key);
-
   @override
   _HomeWebState createState() => _HomeWebState();
 }
 
 class _HomeWebState extends State<HomeWeb> {
   FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void initState(){
+
+    ///Chamando o Provider que busca a lista de empresas
+    Provider.of<HomeProvicer>(context,listen: false).AtualizaListaDeEmpresasProvider();
+    super.initState();
+  }
 
   void deslogaUsuario() async {
     await _auth.signOut();
@@ -195,7 +205,7 @@ class _HomeWebState extends State<HomeWeb> {
                         Card(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
-                            children: [
+                            children: context.watch<HomeProvicer>().Empresas.map((empresa) =>
                               Padding(
                                 padding: EdgeInsets.only(top: 3, bottom: 3, left: 5, right: 5),
                                 child: Container(
@@ -213,110 +223,52 @@ class _HomeWebState extends State<HomeWeb> {
                                       Radius.circular(5),
                                     ),
                                   ),
-                                  child: const ListTile(
+                                  child:  ListTile(
                                     leading: Icon(Icons.approval),
-                                    title: Text('Nome da Empresa'),
-                                    subtitle: Text('Uma descrição da empresa'),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 3, bottom: 3, left: 5, right: 5),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 3,
-                                        blurRadius: 7,
-                                        offset: const Offset(0, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
+                                    title: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(empresa.nomeEmpresa),
+                                        // const SizedBox(
+                                        //   width: 10,
+                                        // ),
+
+                                        Text('Telefone: ${empresa.cnpj}',style: TextStyle(color: Colors.black54),),
+                                        Text('Telefone: ${empresa.telefone}',style: TextStyle(color: Colors.black54),),
+                                      ],
                                     ),
-                                  ),
-                                  child: const ListTile(
-                                    leading: Icon(Icons.approval),
-                                    title: Text('Nome da Empresa'),
-                                    subtitle: Text('Uma descrição da empresa'),
+                                    subtitle: Text(empresa.descricao),
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 3, bottom: 3, left: 5, right: 5),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 3,
-                                        blurRadius: 7,
-                                        offset: const Offset(0, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
-                                  ),
-                                  child: const ListTile(
-                                    leading: Icon(Icons.approval),
-                                    title: Text('Nome da Empresa'),
-                                    subtitle: Text('Uma descrição da empresa'),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 3, bottom: 3, left: 5, right: 5),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 3,
-                                        blurRadius: 7,
-                                        offset: const Offset(0, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
-                                  ),
-                                  child: const ListTile(
-                                    leading: Icon(Icons.approval),
-                                    title: Text('Nome da Empresa'),
-                                    subtitle: Text('Uma descrição da empresa'),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 3, bottom: 3, left: 5, right: 5),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 3,
-                                        blurRadius: 7,
-                                        offset: const Offset(0, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
-                                  ),
-                                  child: const ListTile(
-                                    leading: Icon(Icons.approval),
-                                    title: Text('Nome da Empresa'),
-                                    subtitle: Text('Uma descrição da empresa'),
-                                  ),
-                                ),
-                              ),
-                            ],
+
+                            ).toList(),
+                              // Padding(
+                              //   padding: EdgeInsets.only(top: 3, bottom: 3, left: 5, right: 5),
+                              //   child: Container(
+                              //     decoration: BoxDecoration(
+                              //       color: Colors.white,
+                              //       boxShadow: [
+                              //         BoxShadow(
+                              //           color: Colors.grey.withOpacity(0.5),
+                              //           spreadRadius: 3,
+                              //           blurRadius: 7,
+                              //           offset: const Offset(0, 3), // changes position of shadow
+                              //         ),
+                              //       ],
+                              //       borderRadius: const BorderRadius.all(
+                              //         Radius.circular(5),
+                              //       ),
+                              //     ),
+                              //     child: const ListTile(
+                              //       leading: Icon(Icons.approval),
+                              //       title: Text('Nome da Empresa'),
+                              //       subtitle: Text('Uma descrição da empresa'),
+                              //     ),
+                              //   ),
+                              // ),
+
                           ),
                         )
                       ],
