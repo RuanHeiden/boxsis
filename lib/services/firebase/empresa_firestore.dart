@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 FirebaseAuth _auth = FirebaseAuth.instance;
@@ -34,7 +35,12 @@ Future<bool> DeletaEmpresa(BuildContext context, Empresa empresa) async{
   try{
 
     final documentRef = _firebaseFirestore.collection('usuarios').doc(idAuth).collection('Empresa').doc(empresa.uid);
-    documentRef.delete();
+    documentRef.delete().then((value){
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Empresa excluida com sucesso !')),
+      );
+    });
 
     return true;
   }catch(e){
