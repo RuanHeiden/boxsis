@@ -1,6 +1,6 @@
 import 'package:boxsis/modelos/empresa.dart';
 import 'package:boxsis/provider/home_empresa.dart';
-import 'package:boxsis/services/firebase/data.dart';
+import 'package:boxsis/services/firebase/empresa_firestore.dart';
 import 'package:boxsis/view/button/button_average_title_icon_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +93,7 @@ ModalCadastraEmpresa(BuildContext context) {
               flex: 1,
               child: Container(
                 width: 500,
-                color: Color.fromARGB(250, 248, 247, 245),
+                color: const Color.fromARGB(250, 248, 247, 245),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,7 +103,7 @@ ModalCadastraEmpresa(BuildContext context) {
                       child: Image.asset('img/img-cadatro-empresa.jpg'),
                     ),
                     Container(
-                      padding: EdgeInsets.all(35),
+                      padding: const EdgeInsets.all(35),
                       //color: Colors.red,
                       child: Center(
                         child: Column(
@@ -156,7 +156,12 @@ CadastraEmpresa(
   String endereco,
   String numeroFuncionario,
 ) async {
+
+  final timeTicksNow = DateTime.now().millisecondsSinceEpoch;
+  String timeUID = timeTicksNow.toString();
+  //ruan
   Empresa empresa = Empresa(
+    timeUID,
     nomeEmpresa,
     nomeFantasia,
     descricao,
@@ -166,7 +171,8 @@ CadastraEmpresa(
     endereco,
     numeroFuncionario,
   );
-  await GravaEmpresa(context, empresa).then((value){
+
+  await GravaEmpresa(context, empresa, timeUID).then((value){
     if(value){
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(

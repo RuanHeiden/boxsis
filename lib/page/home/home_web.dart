@@ -1,7 +1,8 @@
 import 'package:boxsis/page/view-cadastros/cadatra_empresa.dart';
+import 'package:boxsis/page/view_detalhes/detalhes_empresa.dart';
 import 'package:boxsis/provider/home_empresa.dart';
 import 'package:boxsis/services/busca_empresas_cadastrada.dart';
-import 'package:boxsis/services/firebase/data.dart';
+import 'package:boxsis/services/firebase/empresa_firestore.dart';
 import 'package:boxsis/themes/colors.dart';
 import 'package:boxsis/view/block_logo_line.dart';
 import 'package:boxsis/view/button/button_average_title_icon_color.dart';
@@ -206,6 +207,7 @@ class _HomeWebState extends State<HomeWeb> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: context.watch<HomeProvicer>().Empresas.map((empresa) =>
+
                               Padding(
                                 padding: EdgeInsets.only(top: 3, bottom: 3, left: 5, right: 5),
                                 child: Container(
@@ -224,7 +226,10 @@ class _HomeWebState extends State<HomeWeb> {
                                     ),
                                   ),
                                   child:  ListTile(
-                                    leading: Icon(Icons.approval),
+                                    onTap: (){
+                                      ModalDetalhesDaEmpresa(context, empresa);
+                                    },
+                                    leading: const Icon(Icons.approval),
                                     title: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment: CrossAxisAlignment.start,

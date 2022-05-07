@@ -1,5 +1,6 @@
 
 class Empresa{
+    String? uid;
     String nomeEmpresa;
     String nomeFantasia;
     String descricao;
@@ -10,6 +11,7 @@ class Empresa{
     String numeroFuncionario;
 
     Empresa(
+        this.uid,
         this.nomeEmpresa,
         this.nomeFantasia,
         this.descricao,
@@ -22,12 +24,14 @@ class Empresa{
 
     Map<String, dynamic> toMap(){
       Map<String, dynamic> map = {
+        "uid" : uid,
         "nomeEmpresa" : nomeEmpresa,
         "nomeFantasia" : nomeFantasia,
         "descricao" : descricao,
         "cnpj" : cnpj,
         "telefone" : telefone,
         "segmento" : segmento,
+        "endereco" : endereco,
         "numeroFuncionario" : numeroFuncionario,
       };
       return map;

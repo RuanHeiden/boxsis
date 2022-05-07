@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:boxsis/modelos/usuario.dart';
 import 'package:boxsis/provider/login_register_provider.dart';
-import 'package:boxsis/services/firebase/data.dart';
+import 'package:boxsis/services/firebase/auth.dart';
 import 'package:boxsis/themes/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

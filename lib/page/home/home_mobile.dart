@@ -13,7 +13,6 @@ class HomeMobile extends StatefulWidget {
 }
 
 class _HomeMobileState extends State<HomeMobile> {
-
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
