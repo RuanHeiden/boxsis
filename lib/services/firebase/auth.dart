@@ -11,8 +11,8 @@ FirebaseAuth _auth = FirebaseAuth.instance;
 String? idAuth = _auth.currentUser?.uid;
 
 GravaRestanteDosDadosDoUsuario(BuildContext context, Usuario usuario) {
-  final usuarioRef = _firebaseFirestore.collection('usuarios');
-  usuarioRef.doc(usuario.idUsuario).set(usuario.toMap()).then((value) {
+  final usuarioRef = _firebaseFirestore.collection('Usuarios').doc(usuario.idUsuario);
+  usuarioRef.set(usuario.toMap()).then((value) {
     print('Entro no then !!!');
   });
 }

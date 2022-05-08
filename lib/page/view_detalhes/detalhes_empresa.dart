@@ -16,7 +16,6 @@ ModalDetalhesDaEmpresa(BuildContext context, Empresa empresa) {
   final _telefoneEmpresaController = TextEditingController(text: empresa.telefone);
   final _segmentoEmpresaController = TextEditingController(text: empresa.segmento);
   final _enderecoEmpresaController = TextEditingController(text: empresa.endereco);
-  final _numeroFuncionariosEmpresaController = TextEditingController(text: empresa.numeroFuncionario);
 
   showDialog(
     context: context,
@@ -51,7 +50,6 @@ ModalDetalhesDaEmpresa(BuildContext context, Empresa empresa) {
                       TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, false),
                       TextFieldCadastro('Segmento', _segmentoEmpresaController, TextInputType.text, false),
                       TextFieldCadastro('Endereço', _enderecoEmpresaController, TextInputType.text, false),
-                      TextFieldCadastro('Total Funcionarios', _numeroFuncionariosEmpresaController, TextInputType.number, false),
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 5),
                           child: Row(
@@ -96,7 +94,6 @@ ModalDetalhesDaEmpresa(BuildContext context, Empresa empresa) {
                                         _telefoneEmpresaController.text,
                                         _segmentoEmpresaController.text,
                                         _enderecoEmpresaController.text,
-                                        _numeroFuncionariosEmpresaController.text,
                                         empresa.uid.toString(),
                                       );
 
@@ -140,9 +137,8 @@ CadastraEmpresa(
     String telefone,
     String segmento,
     String endereco,
-    String numeroFuncionario,
     String oldUID,
-    ) async {
+) async {
 
   //
   // final timeTicksNow = DateTime.now().millisecondsSinceEpoch;
@@ -157,7 +153,6 @@ CadastraEmpresa(
     telefone,
     segmento,
     endereco,
-    numeroFuncionario,
   );
   await GravaEmpresa(context, empresa, oldUID).then((value){
     if(value){
@@ -176,7 +171,7 @@ CadastraEmpresa(
 
 Widget TextFieldCadastro(String nameText, TextEditingController numeroFuncionariosEmpresaController, TextInputType typeText, bool mandatory) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
     //width: 350,
     // /height: 50,
     child: TextFormField(

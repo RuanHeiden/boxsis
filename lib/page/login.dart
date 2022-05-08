@@ -440,6 +440,7 @@ CadastraUsuario(BuildContext context, String email, String senha, String nome, S
         nome,
         auth.user?.email ?? '',
         idade,
+        ['']
       );
       GravaRestanteDosDadosDoUsuario(context, usuario);
     },

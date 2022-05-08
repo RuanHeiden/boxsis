@@ -1,4 +1,3 @@
-
 import 'dart:html';
 
 import 'package:boxsis/modelos/empresa.dart';
@@ -13,29 +12,61 @@ FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 FirebaseAuth _auth = FirebaseAuth.instance;
 String? idAuth = _auth.currentUser?.uid;
 
-
 ///Grava empresa
-Future<bool> GravaEmpresa(BuildContext context, Empresa empresa, String timeUID) async{
-
+Future<bool> GravaEmpresa(BuildContext context, Empresa empresa, String timeUID) async {
   ///Verifica Login
-  try{
+  try {
     print(_auth.currentUser?.uid);
+    var idPessoaLogada = _auth.currentUser?.uid;
 
-    final usuarioRef = _firebaseFirestore.collection('usuarios').doc(idAuth);
-    await usuarioRef.collection('Empresa').doc(timeUID).set(empresa.toMap());
+    final timeTicksNow = DateTime.now().millisecondsSinceEpoch;
+    String timeUID = timeTicksNow.toString();
+
+    ///Cadastra empresas na lista do usuario logado
+    final usuarioRef = _firebaseFirestore.collection('Usuarios').doc(idPessoaLogada);
+
+    List<String> arrayDeIdEmpresa =  await getEmpresasUsuarioLogado(idPessoaLogada!);
+
+    arrayDeIdEmpresa.add(timeUID);
+
+    Map<String, dynamic> listaDeEmpresas = {
+      'empresas' : arrayDeIdEmpresa
+    };
+    await usuarioRef.update(listaDeEmpresas);
+
+
+    ///cadastra na lista de empresas
+    final empresaRef =
+        _firebaseFirestore
+        .collection('Empresas')
+        .doc(timeUID);
+
+    await empresaRef.set(empresa.toMap());
 
     return true;
-  }catch(e){
+  } catch (e) {
     print('Algo de errado na tela de cadastro da empresa');
     return false;
   }
 }
 
-Future<bool> DeletaEmpresa(BuildContext context, Empresa empresa) async{
-  try{
+Future<List<String>> getEmpresasUsuarioLogado(String idPessoaLogada) async {
+  var snapshotsEmpresa = await _firebaseFirestore.collection('Usuarios').doc(idPessoaLogada).get();
+  List<String> arrayDeIdEmpresa = [];
+  for (int i = 0; i < snapshotsEmpresa['empresas'].length; i++) {
+    arrayDeIdEmpresa.add(snapshotsEmpresa['empresas'][i]);
+  }
+  print('idPessoaLogada $idPessoaLogada ');
+  print('snapshotsEmpresa $snapshotsEmpresa');
+  return arrayDeIdEmpresa;
+}
 
+
+Future<bool> DeletaEmpresa(BuildContext context, Empresa empresa) async {
+  try {
     final documentRef = _firebaseFirestore.collection('usuarios').doc(idAuth).collection('Empresa').doc(empresa.uid);
-    documentRef.delete().then((value){
+
+    documentRef.delete().then((value) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Empresa excluida com sucesso !')),
@@ -43,20 +74,29 @@ Future<bool> DeletaEmpresa(BuildContext context, Empresa empresa) async{
     });
 
     return true;
-  }catch(e){
+  } catch (e) {
     print('Algo de errado na tela de Deleta da empresa');
     return false;
   }
 }
 
+Future<List> getEmpresa() async {
+  var idPessoa = _auth.currentUser?.uid;
+
+  var snapshotsEmpresa222 = await _firebaseFirestore.collection('Empresas').doc(idPessoa.toString()).get();
+  // print(snapshotsEmpresa.docs[0].id);
 
 
-Future<QuerySnapshot<Map<String, dynamic>>> getEmpresa() async{
-      var snapshotsEmpresa = await _firebaseFirestore
-          .collection('usuarios')
-          .doc(idAuth.toString())
-          .collection('Empresa')
-          .get();
-     // print(snapshotsEmpresa.docs[0].id);
-  return snapshotsEmpresa;
+  var idPessoaLogada = _auth.currentUser?.uid;
+  var ListaDeEmpresas = [];
+  List<String> arrayDeIdEmpresa =  await getEmpresasUsuarioLogado(idPessoaLogada!);
+
+
+  for(int i = 0; i < arrayDeIdEmpresa.length; i++){
+    var snapshotsEmpresa = await _firebaseFirestore.collection('Empresas').doc(arrayDeIdEmpresa[i]).get();
+
+    ListaDeEmpresas.add(snapshotsEmpresa.data());
+  }
+  // print(snapshotsEmpresa.docs[0].id);
+  return ListaDeEmpresas;
 }

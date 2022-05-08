@@ -8,7 +8,6 @@ class Empresa{
     String telefone;
     String segmento;
     String endereco;
-    String numeroFuncionario;
 
     Empresa(
         this.uid,
@@ -19,7 +18,6 @@ class Empresa{
         this.telefone,
         this.segmento,
         this.endereco,
-        this.numeroFuncionario
         );
 
     Map<String, dynamic> toMap(){
@@ -32,7 +30,6 @@ class Empresa{
         "telefone" : telefone,
         "segmento" : segmento,
         "endereco" : endereco,
-        "numeroFuncionario" : numeroFuncionario,
       };
       return map;
     }

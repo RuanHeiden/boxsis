@@ -5,11 +5,11 @@ import 'package:boxsis/services/firebase/empresa_firestore.dart';
 ///E trasforma em uma lista de empresas
 Future<List<Empresa>> BuscaEmpresaCadastrada() async{
 
-  var jsonEmpresas = await getEmpresa();
+  var listaEmpresas = await getEmpresa();
   List<Empresa> empresas = [];
-
-  for(int i = 0; i < jsonEmpresas.docs.length; i++){
-    var empresaUnidade = jsonEmpresas.docs[i].data();
+  print('length ${listaEmpresas.length}');
+  for(int i = 0; i < listaEmpresas.length; i++){
+    var empresaUnidade = listaEmpresas[i];
     Empresa empresa = Empresa(
         empresaUnidade['uid'] ?? '',
         empresaUnidade['nomeEmpresa'] ?? '',
@@ -19,7 +19,6 @@ Future<List<Empresa>> BuscaEmpresaCadastrada() async{
         empresaUnidade['telefone'] ?? '',
         empresaUnidade['segmento'] ?? '',
         empresaUnidade['endereco'] ?? '',
-        empresaUnidade['numeroFuncionario'] ?? ''
     );
     empresas.add(empresa);
     print('empresa ${empresa.uid}');

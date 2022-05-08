@@ -5,12 +5,14 @@ class Usuario{
   String nome;
   String email;
   String idade;
+  List<String>? empresas;
 
   Usuario(
       this.idUsuario,
       this.nome,
       this.email,
-      this.idade
+      this.idade,
+      this.empresas
       );
 
   Map<String, dynamic> toMap(){
@@ -18,7 +20,8 @@ class Usuario{
       "idUsuario": idUsuario,
       "nome":nome ,
       "email": email,
-      "idade": idade
+      "idade": idade,
+      "empresas": empresas
     };
     return map;
   }

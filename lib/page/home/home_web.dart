@@ -16,6 +16,7 @@ import '../../view/button/button_top_menu.dart';
 
 class HomeWeb extends StatefulWidget {
   const HomeWeb({Key? key}) : super(key: key);
+
   @override
   _HomeWebState createState() => _HomeWebState();
 }
@@ -23,10 +24,9 @@ class HomeWeb extends StatefulWidget {
 class _HomeWebState extends State<HomeWeb> {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  void initState(){
-
+  void initState() {
     ///Chamando o Provider que busca a lista de empresas
-    Provider.of<HomeProvicer>(context,listen: false).AtualizaListaDeEmpresasProvider();
+    Provider.of<HomeProvicer>(context, listen: false).AtualizaListaDeEmpresasProvider();
     super.initState();
   }
 
@@ -118,18 +118,18 @@ class _HomeWebState extends State<HomeWeb> {
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(5),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3), // changes position of shadow
                         ),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: const Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
+                      ],
                     ),
                     child: Column(
                       children: [
@@ -203,77 +203,81 @@ class _HomeWebState extends State<HomeWeb> {
                             ),
                           ],
                         ),
-                        Card(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: context.watch<HomeProvicer>().Empresas.map((empresa) =>
 
-                              Padding(
-                                padding: EdgeInsets.only(top: 3, bottom: 3, left: 5, right: 5),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 3,
-                                        blurRadius: 7,
-                                        offset: const Offset(0, 3), // changes position of shadow
+                        ///Verificando se a empresa cadastrada
+                        context.watch<HomeProvicer>().Empresas.isEmpty
+                            /// se não, mostrar um text com icon
+                            ? Center(
+                                child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children:  [
+                                  Text(
+                                    'Nenhuma Empresa cadastrada !',
+                                    style: TextStyle(color: Colors.grey.shade300, fontSize: 18),
+                                  ),
+                                  Icon(Icons.playlist_add_outlined, color: Colors.grey.shade300, size: 50,),
+                                ],
+                              ))
+
+                            /// se sim, mostrar a lista
+                            : Expanded(
+                          child: Card(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children:
+                                context.watch<HomeProvicer>().Empresas.map(
+                                      (empresa) => Padding(
+                                    padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 3,
+                                            blurRadius: 7,
+                                            offset: const Offset(0, 3), // changes position of shadow
+                                          ),
+                                        ],
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(5),
+                                        ),
                                       ),
-                                    ],
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
-                                  ),
-                                  child:  ListTile(
-                                    onTap: (){
-                                      ModalDetalhesDaEmpresa(context, empresa);
-                                    },
-                                    leading: const Icon(Icons.approval),
-                                    title: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(empresa.nomeEmpresa),
-                                        // const SizedBox(
-                                        //   width: 10,
-                                        // ),
+                                      child: ListTile(
+                                        onTap: () {
+                                          ModalDetalhesDaEmpresa(context, empresa);
+                                        },
+                                        leading: const Icon(Icons.approval),
+                                        title: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(empresa.nomeEmpresa),
 
-                                        Text('Telefone: ${empresa.cnpj}',style: TextStyle(color: Colors.black54),),
-                                        Text('Telefone: ${empresa.telefone}',style: TextStyle(color: Colors.black54),),
-                                      ],
+                                            const SizedBox(
+                                              width: 30,
+                                            ),
+                                            Text(
+                                              'CNPJ: ${empresa.cnpj}',
+                                              style: TextStyle(color: Colors.black54),
+                                            ),
+                                            const SizedBox(
+                                              width: 30,
+                                            ),
+                                            Text(
+                                              'Telefone: ${empresa.telefone}',
+                                              style: TextStyle(color: Colors.black54),
+                                            ),
+                                          ],
+                                        ),
+                                        subtitle: Text(empresa.descricao),
+                                      ),
                                     ),
-                                    subtitle: Text(empresa.descricao),
                                   ),
-                                ),
+                                ).toList(),
+
                               ),
-
-                            ).toList(),
-                              // Padding(
-                              //   padding: EdgeInsets.only(top: 3, bottom: 3, left: 5, right: 5),
-                              //   child: Container(
-                              //     decoration: BoxDecoration(
-                              //       color: Colors.white,
-                              //       boxShadow: [
-                              //         BoxShadow(
-                              //           color: Colors.grey.withOpacity(0.5),
-                              //           spreadRadius: 3,
-                              //           blurRadius: 7,
-                              //           offset: const Offset(0, 3), // changes position of shadow
-                              //         ),
-                              //       ],
-                              //       borderRadius: const BorderRadius.all(
-                              //         Radius.circular(5),
-                              //       ),
-                              //     ),
-                              //     child: const ListTile(
-                              //       leading: Icon(Icons.approval),
-                              //       title: Text('Nome da Empresa'),
-                              //       subtitle: Text('Uma descrição da empresa'),
-                              //     ),
-                              //   ),
-                              // ),
-
+                            ),
                           ),
                         )
                       ],
@@ -354,6 +358,3 @@ Widget TopContainerCenterPage(BuildContext context, IconData IconContainer, Stri
     ),
   );
 }
-
-
-
