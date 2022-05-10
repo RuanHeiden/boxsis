@@ -32,6 +32,7 @@ class _HomeWebState extends State<HomeWeb> {
 
   void deslogaUsuario() async {
     await _auth.signOut();
+    Provider.of<HomeProvicer>(context, listen: false).deslogaUsuarioProvider();
     Navigator.pushReplacementNamed(context, '/login');
   }
 
@@ -248,7 +249,7 @@ class _HomeWebState extends State<HomeWeb> {
                                         onTap: () {
                                           ModalDetalhesDaEmpresa(context, empresa);
                                         },
-                                        leading: const Icon(Icons.approval),
+                                        leading: const Icon(Icons.apartment_outlined, size: 40, color: Colors.grey,),
                                         title: Row(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [

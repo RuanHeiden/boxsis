@@ -65,9 +65,14 @@ ModalCadastraEmpresa(BuildContext context) {
                                 _telefoneEmpresaController.text,
                                 _segmentoEmpresaController.text,
                                 _enderecoEmpresaController.text
-                              );
+                              ).then((value){
+                                if(value){
+                                  Provider.of<HomeProvicer>(context,listen: false).AtualizaListaDeEmpresasProvider();
+                                }else{
 
-                              Provider.of<HomeProvicer>(context,listen: false).AtualizaListaDeEmpresasProvider();
+                                }
+                              });
+
                             } else {
                               ///TRATAR
                             }
@@ -96,6 +101,7 @@ ModalCadastraEmpresa(BuildContext context) {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
+                      height: MediaQuery.of(context).size.height / 1.8,
                       padding: const EdgeInsets.symmetric(vertical: 2),
                       child: Image.asset('img/img-cadatro-empresa.jpg'),
                     ),
@@ -142,7 +148,7 @@ ModalCadastraEmpresa(BuildContext context) {
 }
 
 ///Pegando os dados informados pelo usuario e montando o objeto empresa para iniciar o cadastro
-CadastraEmpresa(
+Future<bool> CadastraEmpresa(
   BuildContext context,
   String nomeEmpresa,
   String nomeFantasia,
@@ -173,13 +179,17 @@ CadastraEmpresa(
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Empresa cadastrada com sucesso !')),
       );
+      return true;
     }else{
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Informe os dados corretamente para efetuar o cadastro da empresa !')),
       );
+      return false;
     }
+
     //value == true ? Navigator.pop(context) : null;
   });
+  return false;
 }
 
 Widget TextFieldCadastro(String nameText, TextEditingController numeroFuncionariosEmpresaController, TextInputType typeText, bool mandatory) {

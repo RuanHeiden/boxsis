@@ -10,4 +10,9 @@ class HomeProvicer with ChangeNotifier{
     notifyListeners();
   }
 
+  deslogaUsuarioProvider(){
+    //Empresas.clear();//Limpa lista de empresas
+   // notifyListeners();
+  }
+
 }
