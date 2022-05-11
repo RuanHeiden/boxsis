@@ -1,5 +1,6 @@
 import 'package:boxsis/page/login.dart';
 import 'package:boxsis/provider/login_register_provider.dart';
+import 'package:boxsis/services/firebase/verifica_usuario_logado.dart';
 import 'package:boxsis/uteis/rotas.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -24,28 +25,44 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    verificarUsuarioLogado(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
+        providers: [
           ChangeNotifierProvider(create: (_) => LoginRegisterProvider()),
           ChangeNotifierProvider(create: (_) => HomeProvicer()),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'SIS.box',
-        ///Colors primárias para inicialização de cores
-        theme: ThemeData(
-            primarySwatch: Colors.yellow,
-            secondaryHeaderColor: const Color.fromARGB(40, 254, 222, 93),
-            primaryColorLight: const Color.fromARGB(255, 255, 255, 255),
-            primaryColorDark: Colors.black45
-        ),
-        initialRoute: "/",
-        onGenerateRoute: Rotas.gerarRota,
-      )
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'SIS.box',
+          ///Colors primárias para inicialização de cores
+          theme: ThemeData(
+              primarySwatch: Colors.yellow,
+              secondaryHeaderColor: const Color.fromARGB(40, 254, 222, 93),
+              primaryColorLight: const Color.fromARGB(255, 255, 255, 255),
+              primaryColorDark: Colors.black45
+          ),
+          initialRoute: "/",
+          onGenerateRoute: Rotas.gerarRota,
+        )
     );
   }
 }
+
+

@@ -23,18 +23,30 @@ Future<bool> GravaEmpresa(BuildContext context, Empresa empresa, String timeUID)
 
     List<String> arrayDeIdEmpresa =  await getEmpresasUsuarioLogado(idPessoaLogada!);
 
-    arrayDeIdEmpresa.add(timeUID);
-
-    Map<String, dynamic> listaDeEmpresas = {
-      'empresas' : arrayDeIdEmpresa
-    };
 
 
-    final usuarioRef = _firebaseFirestore
+    /// For para verificar se a empresa esta sendo criada ou alterada
+    /// Se o id "timeUID" for igual a já cadatrado
+    /// temIgual = true
+    bool temIgual = false;
+    for(int i = 0; i < arrayDeIdEmpresa.length; i++){
+      if(arrayDeIdEmpresa[i] == timeUID){
+        temIgual = true;
+      }
+    }
+
+    /// Se temIgual for false
+    /// pode cadastrada novamente
+    if(!temIgual){
+      arrayDeIdEmpresa.add(timeUID);
+      Map<String, dynamic> listaDeEmpresas = {
+        'empresas' : arrayDeIdEmpresa
+      };
+      final usuarioRef = _firebaseFirestore
           .collection('Usuarios')
           .doc(idPessoaLogada);
-    await usuarioRef.update(listaDeEmpresas);
-
+      await usuarioRef.update(listaDeEmpresas);
+    }
 
     ///cadastra na lista de empresas
     final empresaRef =
@@ -80,8 +92,6 @@ Future<List<String>> getEmpresasUsuarioLogado(String idPessoaLogada) async {
   for (int i = 0; i < snapshotsEmpresa['empresas'].length; i++) {
     arrayDeIdEmpresa.add(snapshotsEmpresa['empresas'][i]);
   }
-  print('idPessoaLogada $idPessoaLogada ');
-  print('snapshotsEmpresa $snapshotsEmpresa');
   return arrayDeIdEmpresa;
 }
 

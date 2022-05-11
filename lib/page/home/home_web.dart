@@ -1,3 +1,4 @@
+import 'package:boxsis/modelos/empresa.dart';
 import 'package:boxsis/page/view-cadastros/cadatra_empresa.dart';
 import 'package:boxsis/page/view_detalhes/detalhes_empresa.dart';
 import 'package:boxsis/provider/home_empresa.dart';
@@ -94,6 +95,8 @@ class _HomeWebState extends State<HomeWeb> {
                       onTap: () async {
                         await _auth.signOut();
                         Navigator.pushReplacementNamed(context, '/login');
+
+                        Provider.of<HomeProvicer>(context, listen: false).deslogaUsuarioProvider();
                       },
                       child: ButtonSmallIcon(
                         context,
@@ -206,88 +209,118 @@ class _HomeWebState extends State<HomeWeb> {
                         ),
 
                         ///Verificando se a empresa cadastrada
-                        context.watch<HomeProvicer>().Empresas.isEmpty
+                        context.watch<HomeProvicer>().empresas.isEmpty
+
                             /// se não, mostrar um text com icon
                             ? Center(
                                 child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                children:  [
+                                children: [
                                   Text(
                                     'Nenhuma Empresa cadastrada !',
                                     style: TextStyle(color: Colors.grey.shade300, fontSize: 18),
                                   ),
-                                  Icon(Icons.playlist_add_outlined, color: Colors.grey.shade300, size: 50,),
+                                  Icon(
+                                    Icons.playlist_add_outlined,
+                                    color: Colors.grey.shade300,
+                                    size: 50,
+                                  ),
                                 ],
                               ))
 
                             /// se sim, mostrar a lista
                             : Expanded(
-                          child: Card(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children:
-                                context.watch<HomeProvicer>().Empresas.map(
-                                      (empresa) => Padding(
-                                    padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 3,
-                                            blurRadius: 7,
-                                            offset: const Offset(0, 3), // changes position of shadow
-                                          ),
-                                        ],
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(5),
-                                        ),
-                                      ),
-                                      child: ListTile(
-                                        onTap: () {
-                                          ModalDetalhesDaEmpresa(context, empresa);
-                                        },
-                                        leading: const Icon(Icons.apartment_outlined, size: 40, color: Colors.grey,),
-                                        title: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(empresa.nomeEmpresa),
-
-                                            const SizedBox(
-                                              width: 30,
+                                child: Card(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: context
+                                          .watch<HomeProvicer>()
+                                          .empresas
+                                          .map(
+                                            (empresa) =>
+                                                Padding(
+                                              padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey.withOpacity(0.5),
+                                                      spreadRadius: 3,
+                                                      blurRadius: 7,
+                                                      offset: const Offset(0, 3), // changes position of shadow
+                                                    ),
+                                                  ],
+                                                  borderRadius: const BorderRadius.all(
+                                                    Radius.circular(5),
+                                                  ),
+                                                ),
+                                                child: ListTile(
+                                                  onTap: () {
+                                                  },
+                                                  leading: const Icon(
+                                                    Icons.apartment_outlined,
+                                                    size: 40,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  title: Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(empresa.nomeEmpresa),
+                                                      const SizedBox(
+                                                        width: 30,
+                                                      ),
+                                                      Text(
+                                                        'CNPJ: ${empresa.cnpj}',
+                                                        style: TextStyle(color: Colors.black54),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 30,
+                                                      ),
+                                                      Text(
+                                                        'Telefone: ${empresa.telefone}',
+                                                        style: TextStyle(color: Colors.black54),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  subtitle: Text(empresa.descricao),
+                                                  trailing:  Material(
+                                                    color: Colors.transparent,
+                                                    child: InkWell(
+                                                      hoverColor: Colors.grey.shade100,
+                                                      focusColor: Colors.yellow,
+                                                      splashColor: Colors.yellow,
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      onTap: () async {
+                                                        ModalDetalhesDaEmpresa(context, empresa);
+                                                      },
+                                                      child: ButtonSmallIcon(
+                                                        context,
+                                                        _auth,
+                                                        Icons.edit,
+                                                        Colors.grey.shade100,
+                                                        Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                            Text(
-                                              'CNPJ: ${empresa.cnpj}',
-                                              style: TextStyle(color: Colors.black54),
-                                            ),
-                                            const SizedBox(
-                                              width: 30,
-                                            ),
-                                            Text(
-                                              'Telefone: ${empresa.telefone}',
-                                              style: TextStyle(color: Colors.black54),
-                                            ),
-                                          ],
-                                        ),
-                                        subtitle: Text(empresa.descricao),
-                                      ),
+                                          )
+                                          .toList(),
                                     ),
                                   ),
-                                ).toList(),
-
-                              ),
-                            ),
-                          ),
-                        )
+                                ),
+                              )
                       ],
                     ),
                   ),
                 ),
               ),
+              ///Blocos laterais para o dashboard futuros
               Expanded(
-                flex: 1,
+                flex: 0,
                 child: Column(
                   children: [
                     Expanded(

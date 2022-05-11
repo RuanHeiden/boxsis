@@ -7,7 +7,6 @@ Future<List<Empresa>> BuscaEmpresaCadastrada() async{
 
   var listaEmpresas = await getEmpresa();
   List<Empresa> empresas = [];
-  print('length de empresas ${listaEmpresas.length}');
   for(int i = 0; i < listaEmpresas.length; i++){
     var empresaUnidade = listaEmpresas[i];
     Empresa empresa = Empresa(
@@ -21,7 +20,6 @@ Future<List<Empresa>> BuscaEmpresaCadastrada() async{
         empresaUnidade['endereco'] ?? '',
     );
     empresas.add(empresa);
-    print('empresa ${empresa.uid}');
   }
   return empresas;
 }

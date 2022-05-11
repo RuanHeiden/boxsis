@@ -66,10 +66,8 @@ ModalCadastraEmpresa(BuildContext context) {
                                 _segmentoEmpresaController.text,
                                 _enderecoEmpresaController.text
                               ).then((value){
-                                if(value){
+                                if(!value){
                                   Provider.of<HomeProvicer>(context,listen: false).AtualizaListaDeEmpresasProvider();
-                                }else{
-
                                 }
                               });
 

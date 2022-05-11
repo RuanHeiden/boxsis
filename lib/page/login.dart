@@ -4,6 +4,7 @@ import 'package:boxsis/modelos/usuario.dart';
 import 'package:boxsis/provider/login_register_provider.dart';
 import 'package:boxsis/services/firebase/auth.dart';
 import 'package:boxsis/themes/colors.dart';
+import 'package:boxsis/services/firebase/verifica_usuario_logado.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,22 +33,11 @@ class _LoginPageState extends State<LoginPage> {
   final _emailCadastroController = TextEditingController();
   final _senhaCadastroController = TextEditingController();
 
-  ///Verifica se o usuario esta logado, se tiver logado envie o usuario para tela Home page
-  _verificarUsuarioLogado() async {
-    User? usuarioLogado = await _auth.currentUser;
-
-    if (usuarioLogado != null) {
-      Navigator.pushReplacementNamed(context, "/home");
-    }
-  }
-
-  bool _cadastroUsuario = false;
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _verificarUsuarioLogado();
+    verificarUsuarioLogado(context);
   }
 
   @override
