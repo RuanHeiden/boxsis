@@ -2,6 +2,8 @@ import 'package:boxsis/page/home/home.dart';
 import 'package:boxsis/page/login.dart';
 import 'package:flutter/material.dart';
 
+import '../page/home/web/depositos_web.dart';
+
 class Rotas{
 
   static Route<dynamic> gerarRota(RouteSettings settings){
@@ -13,6 +15,8 @@ class Rotas{
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case "/home":
         return MaterialPageRoute(builder: (_) => const Home());
+      case "/depositos":
+        return MaterialPageRoute(builder: (_) => const DepositoWeb());
     }
 
     return _erroRota();

@@ -1,6 +1,6 @@
 import 'package:boxsis/page/home/home_mobile.dart';
 import 'package:boxsis/page/home/home_tablet.dart';
-import 'package:boxsis/page/home/home_web.dart';
+import 'package:boxsis/page/home/web/home_web.dart';
 import 'package:boxsis/uteis/responsivo.dart';
 import 'package:flutter/material.dart';
 
