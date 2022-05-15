@@ -9,23 +9,16 @@ FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 FirebaseAuth _auth = FirebaseAuth.instance;
 String? idAuth = _auth.currentUser?.uid;
 
-
 Future<bool> gravaDeposito(BuildContext context, Deposito deposito, String timeUID) async {
   try {
     ///Pega o id do usuario logado
     var idPessoaLogada = _auth.currentUser?.uid;
 
     ///Pega o id da empresa selecionada
-    var idEmpresaSelecionada = Provider
-        .of<HomeProvicer>(context, listen: false)
-        .empresaSelecionada;
+    var idEmpresaSelecionada = Provider.of<HomeProvicer>(context, listen: false).empresaSelecionada;
 
     ///Pega o caminho para chegar na empresa selecionada
-    final EmpresaRef = _firebaseFirestore
-        .collection('Empresas')
-        .doc(idEmpresaSelecionada)
-        .collection('Depositos')
-        .doc(timeUID);
+    final EmpresaRef = _firebaseFirestore.collection('Empresas').doc(idEmpresaSelecionada).collection('Depositos').doc(timeUID);
     EmpresaRef.set(deposito.toMap());
 
     return true;
@@ -35,49 +28,33 @@ Future<bool> gravaDeposito(BuildContext context, Deposito deposito, String timeU
   }
 }
 
-Future<List> getDeposito(BuildContext context) async{
-  try{
-    var idEmpresaSelecionada = Provider
-        .of<HomeProvicer>(context, listen: false)
-        .empresaSelecionada;
+Future<List> getDeposito(BuildContext context) async {
+  try {
+    var idEmpresaSelecionada = Provider.of<HomeProvicer>(context, listen: false).empresaSelecionada;
 
-    var snapshotDeposito = await _firebaseFirestore
-        .collection('Empresas')
-        .doc(idEmpresaSelecionada)
-        .collection('Depositos')
-        .get();
+    var snapshotDeposito = await _firebaseFirestore.collection('Empresas').doc(idEmpresaSelecionada).collection('Depositos').get();
 
     var listaDeEmpresas = [];
-    print('--------- ${snapshotDeposito.runtimeType}');
-    for(int i = 0; i < snapshotDeposito.docs.length; i++){
+    for (int i = 0; i < snapshotDeposito.docs.length; i++) {
       listaDeEmpresas.add(snapshotDeposito.docs[i].data());
     }
 
     return listaDeEmpresas;
-  }catch(e){
+  } catch (e) {
     print('Algo deu errado no obter o deposito $e');
     return [];
   }
 }
 
-
-Future<bool> DeletaDeposito(BuildContext context, Deposito deposito) async{
-  try{
-  ///Pega o id da empresa selecionada
-  var idEmpresaSelecionada = Provider
-      .of<HomeProvicer>(context, listen: false)
-      .empresaSelecionada;
-  var snapshotDeposito = await _firebaseFirestore
-      .collection('Empresas')
-      .doc(idEmpresaSelecionada)
-      .collection('Depositos')
-      .doc(deposito.uid);
-  await snapshotDeposito.delete();
-  return true;
-  }catch(e){
+Future<bool> DeletaDeposito(BuildContext context, Deposito deposito) async {
+  try {
+    ///Pega o id da empresa selecionada
+    var idEmpresaSelecionada = Provider.of<HomeProvicer>(context, listen: false).empresaSelecionada;
+    var snapshotDeposito = await _firebaseFirestore.collection('Empresas').doc(idEmpresaSelecionada).collection('Depositos').doc(deposito.uid);
+    await snapshotDeposito.delete();
+    return true;
+  } catch (e) {
     print('Algo deu errado no DeletaDeposito : $e');
     return false;
   }
-
-
 }

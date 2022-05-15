@@ -4,7 +4,7 @@ import 'package:boxsis/themes/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-Widget ButtonSmallIcon(BuildContext context, FirebaseAuth auth, IconData IconIcon, Color containerColor, Color iconColors){
+Widget ButtonSmallIcon(BuildContext context, IconData IconIcon, Color containerColor, Color iconColors){
   return Container(
     height: 30,
     width: 30,

@@ -1,3 +1,4 @@
+import 'package:boxsis/mask/mask.dart';
 import 'package:boxsis/modelos/empresa.dart';
 import 'package:boxsis/provider/home_empresa.dart';
 import 'package:boxsis/services/firebase/empresa_firestore.dart';
@@ -5,7 +6,11 @@ import 'package:boxsis/view/button/button_average_title_icon_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
+
+import '../../view/my_textfield.dart';
+import '../view-cadastros/cadastra_deposito.dart';
 
 ModalDetalhesDaEmpresa(BuildContext context, Empresa empresa) {
   final _formKeyCadastraEmpresa = GlobalKey<FormState>();
@@ -33,7 +38,11 @@ ModalDetalhesDaEmpresa(BuildContext context, Empresa empresa) {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
+                      SizedBox(
+                        height: 50,
+                      ),
                        Center(
                         child: Padding(
                           padding: EdgeInsets.only(top: 25, bottom: 40),
@@ -43,11 +52,11 @@ ModalDetalhesDaEmpresa(BuildContext context, Empresa empresa) {
                           ),
                         ),
                       ),
-                      TextFieldCadastro('Nome', _nomeEmpresaController, TextInputType.text, true),
+                      TextFieldCadastro('Nome', _nomeEmpresaController, TextInputType.text, true,),
                       TextFieldCadastro('Nome Fantasia', _nomeFantasiaEmpresaController, TextInputType.text, true),
                       TextFieldCadastro('Descrição', _descricaoEmpresaController, TextInputType.text, false),
-                      TextFieldCadastro('CNPJ', _cnpjEmpresaController, TextInputType.number, true),
-                      TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, false),
+                      TextFieldCadastro('CNPJ', _cnpjEmpresaController, TextInputType.number, true, mask: maskCNPJ),
+                      TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, false, mask: maskTelefone),
                       TextFieldCadastro('Segmento', _segmentoEmpresaController, TextInputType.text, false),
                       TextFieldCadastro('Endereço', _enderecoEmpresaController, TextInputType.text, false),
                       Padding(
@@ -114,7 +123,10 @@ ModalDetalhesDaEmpresa(BuildContext context, Empresa empresa) {
 
                             ],
                           )
-                      )
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
                     ],
                   ),
                 ),
@@ -169,28 +181,3 @@ CadastraEmpresa(
   });
 }
 
-Widget TextFieldCadastro(String nameText, TextEditingController numeroFuncionariosEmpresaController, TextInputType typeText, bool mandatory) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-    //width: 350,
-    // /height: 50,
-    child: TextFormField(
-      obscureText: false,
-      controller: numeroFuncionariosEmpresaController,
-
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelStyle: const TextStyle(
-          color: Colors.black54,
-        ),
-        labelText: nameText.toString(),
-      ),
-      keyboardType: typeText,
-      validator: mandatory
-          ? (text) {
-        if (text!.isEmpty) return "Informe um ${nameText} !";
-      }
-          : null,
-    ),
-  );
-}

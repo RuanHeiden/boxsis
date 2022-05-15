@@ -18,7 +18,7 @@ Widget ButtonTopMenuHomePage(BuildContext context, title) {
         decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: PaletaCores.corAmareloForte,
+              color: Colors.yellow,
               width: 1.5,
             ),
           ),

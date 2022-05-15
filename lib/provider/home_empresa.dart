@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class HomeProvicer with ChangeNotifier {
   List<Empresa> empresas = [];
   String empresaSelecionada = '';
+  String textFiltroDireto = '';
 
   Future<void> AtualizaListaDeEmpresasProvider() async {
     empresas = await BuscaEmpresaCadastrada();
@@ -21,8 +22,15 @@ class HomeProvicer with ChangeNotifier {
     notifyListeners();
   }
 
+
+  ///Filtro
   limpaEmpresaSelecionada(){
     selecionadaEmpresa('');
+    notifyListeners();
+  }
+
+  filtrandoDireto(value){
+    textFiltroDireto = value;
     notifyListeners();
   }
 }

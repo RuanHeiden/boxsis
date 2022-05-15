@@ -21,7 +21,7 @@ class _HomeMobileState extends State<HomeMobile> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: PaletaCores.corSinzaClaro,
+            backgroundColor: Colors.grey.shade300,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -38,7 +38,7 @@ class _HomeMobileState extends State<HomeMobile> {
                       ),
                       child: IconButton(
                           onPressed: (){},
-                          icon: Icon(Icons.person, color:PaletaCores.corAmareloForte,)
+                          icon: Icon(Icons.person, color:Colors.orange,)
                       ),
                     ),
                     const SizedBox(width: 3.0),
@@ -54,7 +54,7 @@ class _HomeMobileState extends State<HomeMobile> {
                           await _auth.signOut();
                           Navigator.pushReplacementNamed(context, '/login');
                         },
-                        icon: const Icon(Icons.logout, color: PaletaCores.corAmareloForte,),
+                        icon: const Icon(Icons.logout, color: Colors.grey,),
                       ),
                     ),
                   ],
@@ -62,12 +62,12 @@ class _HomeMobileState extends State<HomeMobile> {
               ],
             ),
             leading: InkWell(
-              hoverColor: PaletaCores.corAmareloFraca,
+              hoverColor: Colors.grey,
               child: Container(
                 color: Colors.white24,
                 child: const Icon(
                   Icons.menu,
-                  color: PaletaCores.corAmareloForte,
+                  color: Colors.white,
                 ),
               ),
               onTap: (){

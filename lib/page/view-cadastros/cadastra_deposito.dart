@@ -1,3 +1,4 @@
+import 'package:boxsis/mask/mask.dart';
 import 'package:boxsis/modelos/deposito.dart';
 import 'package:boxsis/modelos/empresa.dart';
 import 'package:boxsis/provider/deposito_provider.dart';
@@ -7,9 +8,11 @@ import 'package:boxsis/view/button/button_average_title_icon_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/firebase/deposito_firestore.dart';
+import '../../view/my_textfield.dart';
 
 ModalCadastraDeposito(BuildContext context) {
   final _formKeyCadastraDeposito = GlobalKey<FormState>();
@@ -50,7 +53,7 @@ ModalCadastraDeposito(BuildContext context) {
                      // TextFieldCadastro('Nome Fantasia', _nomeFantasiaEmpresaController, TextInputType.text, true),
                       TextFieldCadastro('Descrição', _descricaoDepositoController, TextInputType.text, false),
                       //TextFieldCadastro('CNPJ', _cnpjEmpresaController, TextInputType.number, true),
-                      TextFieldCadastro('Telefone', _telefoneDepositoController, TextInputType.phone, false),
+                      TextFieldCadastro('Telefone', _telefoneDepositoController, TextInputType.phone, false, mask: maskTelefone),
                       TextFieldCadastro('Segmento', _segmentoDepositoController, TextInputType.text, false),
                       TextFieldCadastro('Endereço', _enderecoDepositoController, TextInputType.text, false),
                       Padding(
@@ -204,27 +207,3 @@ Future<bool> CadastraDeposito(
   return false;
 }
 
-Widget TextFieldCadastro(String nameText, TextEditingController numeroFuncionariosEmpresaController, TextInputType typeText, bool mandatory) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-    //width: 350,
-    // /height: 50,
-    child: TextFormField(
-      obscureText: false,
-      controller: numeroFuncionariosEmpresaController,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelStyle: const TextStyle(
-          color: Colors.black54,
-        ),
-        labelText: nameText.toString(),
-      ),
-      keyboardType: typeText,
-      validator: mandatory
-          ? (text) {
-        if (text!.isEmpty) return "Informe um ${nameText} !";
-      }
-          : null,
-    ),
-  );
-}

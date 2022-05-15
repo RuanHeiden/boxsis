@@ -25,7 +25,7 @@ class _DepositoWebState extends State<DepositoWeb> {
 
   void initState() {
     ///Chamando o Provider que busca a lista de depositos
-     Provider.of<DepositoProvider>(context,listen: false).AtualizaListaDeDepositosProvider(context);
+    Provider.of<DepositoProvider>(context, listen: false).AtualizaListaDeDepositosProvider(context);
     super.initState();
   }
 
@@ -44,8 +44,7 @@ class _DepositoWebState extends State<DepositoWeb> {
           leading: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: (){
-
+              onTap: () {
                 Navigator.pushReplacementNamed(context, '/home');
               },
               hoverColor: Colors.grey.shade100,
@@ -88,7 +87,6 @@ class _DepositoWebState extends State<DepositoWeb> {
                       },
                       child: ButtonSmallIcon(
                         context,
-                        _auth,
                         Icons.person,
                         Colors.grey.shade100,
                         Colors.grey,
@@ -111,7 +109,6 @@ class _DepositoWebState extends State<DepositoWeb> {
                       },
                       child: ButtonSmallIcon(
                         context,
-                        _auth,
                         Icons.logout,
                         Colors.grey.shade100,
                         Colors.grey,
@@ -148,7 +145,7 @@ class _DepositoWebState extends State<DepositoWeb> {
                     ),
                     child: Column(
                       children: [
-                        TopContainerCenterPage(context, Icons.widgets, 'Lista de Depositos'),
+                        TopContainerCenterPage(context, Icons.widgets, 'Lista de Depositos', Colors.orange.shade300),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -175,7 +172,6 @@ class _DepositoWebState extends State<DepositoWeb> {
                                     onTap: () async {},
                                     child: ButtonSmallIcon(
                                       context,
-                                      _auth,
                                       Icons.apps,
                                       Colors.grey.shade100,
                                       Colors.grey,
@@ -195,7 +191,6 @@ class _DepositoWebState extends State<DepositoWeb> {
                                     onTap: () async {},
                                     child: ButtonSmallIcon(
                                       context,
-                                      _auth,
                                       Icons.menu,
                                       Colors.grey.shade100,
                                       Colors.grey,
@@ -220,109 +215,113 @@ class _DepositoWebState extends State<DepositoWeb> {
                         ),
                         context.watch<DepositoProvider>().depositos.isEmpty
                             ? Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Nenhum deposito cadastrado !',
-                                  style: TextStyle(color: Colors.grey.shade300, fontSize: 18),
-                                ),
-                                Icon(
-                                  Icons.playlist_add_outlined,
-                                  color: Colors.grey.shade300,
-                                  size: 50,
-                                ),
-                              ],
-                            ))
+                                child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Nenhum deposito cadastrado !',
+                                    style: TextStyle(color: Colors.grey.shade300, fontSize: 18),
+                                  ),
+                                  Icon(
+                                    Icons.playlist_add_outlined,
+                                    color: Colors.grey.shade300,
+                                    size: 50,
+                                  ),
+                                ],
+                              ))
                             : Expanded(
-                          child: Card(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: context
-                                    .watch<DepositoProvider>()
-                                    .depositos
-                                    .map(
-                                      (deposito) =>
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.withOpacity(0.5),
-                                                spreadRadius: 3,
-                                                blurRadius: 7,
-                                                offset: const Offset(0, 3), // changes position of shadow
+                                child: Card(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: context
+                                          .watch<DepositoProvider>()
+                                          .depositos
+                                          .map(
+                                            (deposito) => Padding(
+                                              padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey.withOpacity(0.5),
+                                                      spreadRadius: 3,
+                                                      blurRadius: 7,
+                                                      offset: const Offset(0, 3), // changes position of shadow
+                                                    ),
+                                                  ],
+                                                  borderRadius: const BorderRadius.all(
+                                                    Radius.circular(5),
+                                                  ),
+                                                ),
+                                                child: ListTile(
+                                                  onTap: () {},
+                                                  leading: Padding(
+                                                    padding: EdgeInsets.symmetric(horizontal: 15),
+                                                    child: CircleAvatar(
+                                                      backgroundColor: Colors.orange.shade300,
+                                                      child: const Icon(
+                                                        Icons.widgets,
+                                                        size: 25,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  title: Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(deposito.nomeEmpresa),
+                                                      const SizedBox(
+                                                        width: 30,
+                                                      ),
+                                                      Text(
+                                                        'CNPJ: ${deposito.endereco}',
+                                                        style: TextStyle(color: Colors.black54),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 30,
+                                                      ),
+                                                      Text(
+                                                        'Telefone: ${deposito.telefone}',
+                                                        style: TextStyle(color: Colors.black54),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  subtitle: Text(deposito.descricao),
+                                                  trailing: Material(
+                                                    color: Colors.transparent,
+                                                    child: InkWell(
+                                                      hoverColor: Colors.grey.shade100,
+                                                      focusColor: Colors.yellow,
+                                                      splashColor: Colors.yellow,
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      onTap: () async {
+                                                        ModalDetalhesDaDeposito(context, deposito);
+                                                      },
+                                                      child: ButtonSmallIcon(
+                                                        context,
+                                                        Icons.edit,
+                                                        Colors.grey.shade100,
+                                                        Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
-                                            ],
-                                            borderRadius: const BorderRadius.all(
-                                              Radius.circular(5),
                                             ),
-                                          ),
-                                          child: ListTile(
-                                            onTap: () {
-                                            },
-                                            leading: const Icon(
-                                              Icons.widgets,
-                                              size: 40,
-                                              color: Colors.grey,
-                                            ),
-                                            title: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(deposito.nomeEmpresa),
-                                                const SizedBox(
-                                                  width: 30,
-                                                ),
-                                                Text(
-                                                  'CNPJ: ${deposito.endereco}',
-                                                  style: TextStyle(color: Colors.black54),
-                                                ),
-                                                const SizedBox(
-                                                  width: 30,
-                                                ),
-                                                Text(
-                                                  'Telefone: ${deposito.telefone}',
-                                                  style: TextStyle(color: Colors.black54),
-                                                ),
-                                              ],
-                                            ),
-                                            subtitle: Text(deposito.descricao),
-                                            trailing:  Material(
-                                              color: Colors.transparent,
-                                              child: InkWell(
-                                                hoverColor: Colors.grey.shade100,
-                                                focusColor: Colors.yellow,
-                                                splashColor: Colors.yellow,
-                                                borderRadius: BorderRadius.circular(10),
-                                                onTap: () async {
-                                                  ModalDetalhesDaDeposito(context, deposito);
-                                                },
-                                                child: ButtonSmallIcon(
-                                                  context,
-                                                  _auth,
-                                                  Icons.edit,
-                                                  Colors.grey.shade100,
-                                                  Colors.grey,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                )
-                                    .toList(),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),
                 ),
               ),
+
               ///Blocos laterais para o dashboard futuros
               Expanded(
                 flex: 0,
@@ -357,7 +356,7 @@ class _DepositoWebState extends State<DepositoWeb> {
   }
 }
 
-Widget TopContainerCenterPage(BuildContext context, IconData IconContainer, String title) {
+Widget TopContainerCenterPage(BuildContext context, IconData IconContainer, String title, Color color) {
   return Container(
     decoration: BoxDecoration(
       borderRadius: const BorderRadius.only(
@@ -367,23 +366,29 @@ Widget TopContainerCenterPage(BuildContext context, IconData IconContainer, Stri
       //color: Colors.grey.shade100,
       border: Border.all(color: Colors.grey.shade300, width: 0.5),
     ),
-    height: 40,
+    height: 50,
     child: Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 20),
-            child: Icon(
-              IconContainer,
-              //color: Colors.blue.shade400,
-              color: Colors.black54,
-              size: 28,
+            child: CircleAvatar(
+              backgroundColor: color,
+              child: Icon(
+                IconContainer,
+                size: 25,
+                color: Colors.white,
+              ),
             ),
           ),
           Text(
             title,
-            style: const TextStyle(color: Colors.black54, fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              color: Colors.black54,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const Padding(
             padding: EdgeInsets.only(right: 20),

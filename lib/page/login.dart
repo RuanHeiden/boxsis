@@ -45,11 +45,7 @@ class _LoginPageState extends State<LoginPage> {
     var MediaHeight = MediaQuery.of(context).size.height;
     var MediaWeigth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: MediaWeigth < 800
-          // ? Theme.of(context).primaryColorLight
-          //: Theme.of(context).secondaryHeaderColor,
-          ? Colors.transparent
-          : PaletaCores.corAmareloFraca,
+      backgroundColor: Colors.transparent,
       body: Stack(
         children: [
           Center(

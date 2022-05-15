@@ -8,6 +8,7 @@ import 'package:boxsis/themes/colors.dart';
 import 'package:boxsis/view/block_logo_line.dart';
 import 'package:boxsis/view/button/button_average_title_icon_color.dart';
 import 'package:boxsis/view/button/button_small.dart';
+import 'package:boxsis/view/my_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -37,6 +38,7 @@ class _HomeWebState extends State<HomeWeb> {
     Navigator.pushReplacementNamed(context, '/login');
   }
 
+  final _filtroController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -73,11 +75,9 @@ class _HomeWebState extends State<HomeWeb> {
                       splashColor: Colors.yellow,
                       borderRadius: BorderRadius.circular(10),
                       onTap: () {
-                        print('teste');
                       },
                       child: ButtonSmallIcon(
                         context,
-                        _auth,
                         Icons.person,
                         Colors.grey.shade100,
                         Colors.grey,
@@ -100,7 +100,6 @@ class _HomeWebState extends State<HomeWeb> {
                       },
                       child: ButtonSmallIcon(
                         context,
-                        _auth,
                         Icons.logout,
                         Colors.grey.shade100,
                         Colors.grey,
@@ -137,7 +136,7 @@ class _HomeWebState extends State<HomeWeb> {
                     ),
                     child: Column(
                       children: [
-                        TopContainerCenterPage(context, Icons.apartment_outlined, 'Lista de Empresas'),
+                        TopContainerCenterPage(context, Icons.apartment_outlined, 'Lista de Empresas', Colors.blue.shade300),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -164,7 +163,6 @@ class _HomeWebState extends State<HomeWeb> {
                                     onTap: () async {},
                                     child: ButtonSmallIcon(
                                       context,
-                                      _auth,
                                       Icons.apps,
                                       Colors.grey.shade100,
                                       Colors.grey,
@@ -184,7 +182,6 @@ class _HomeWebState extends State<HomeWeb> {
                                     onTap: () async {},
                                     child: ButtonSmallIcon(
                                       context,
-                                      _auth,
                                       Icons.menu,
                                       Colors.grey.shade100,
                                       Colors.grey,
@@ -192,7 +189,53 @@ class _HomeWebState extends State<HomeWeb> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  width: 10,
+                                  width: 30,
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 200,
+                                      height: 40,
+                                      child: TextFormField(
+                                        obscureText: false,
+                                        controller: _filtroController,
+                                        decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelStyle: TextStyle(
+                                            color: Colors.black54,
+                                          ),
+                                          labelText: 'Filtro',
+                                        ),
+                                        onChanged: (value){
+                                          Provider.of<HomeProvicer>(context, listen: false).filtrandoDireto(value);
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 4,
+                                    ),
+
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        hoverColor: Colors.grey.shade100,
+                                        focusColor: Colors.yellow,
+                                        splashColor: Colors.yellow,
+                                        borderRadius: BorderRadius.circular(10),
+                                        onTap: () async {
+                                          ///Limpa filtro direto
+                                          _filtroController.text = '';
+                                          Provider.of<HomeProvicer>(context, listen: false).filtrandoDireto('');
+                                        },
+                                        child: ButtonSmallIcon(
+                                          context,
+                                          Icons.close,
+                                          Colors.grey.shade100,
+                                          Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 InkWell(
                                   onTap: () {},
@@ -227,19 +270,19 @@ class _HomeWebState extends State<HomeWeb> {
                                     size: 50,
                                   ),
                                 ],
-                              ))
+                              ),
+                            )
 
                             /// se sim, mostrar a lista
                             : Expanded(
                                 child: Card(
                                   child: SingleChildScrollView(
                                     child: Column(
-                                      children: context
+                                      children: context.watch<HomeProvicer>().textFiltroDireto == ''
+                                        ?context
                                           .watch<HomeProvicer>()
-                                          .empresas
-                                          .map(
-                                            (empresa) =>
-                                                Padding(
+                                          .empresas.map(
+                                            (empresa) => Padding(
                                               padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
                                               child: Container(
                                                 decoration: BoxDecoration(
@@ -263,24 +306,35 @@ class _HomeWebState extends State<HomeWeb> {
 
                                                     Navigator.pushReplacementNamed(context, '/depositos');
                                                   },
-                                                  leading: const Icon(
-                                                    Icons.apartment_outlined,
-                                                    size: 40,
-                                                    color: Colors.grey,
+                                                  leading:Padding(
+                                                    padding: EdgeInsets.symmetric(horizontal: 15),
+                                                    child: CircleAvatar(
+                                                      backgroundColor: Colors.blue.shade300,
+                                                      child: const Icon(
+                                                        Icons.apartment_outlined,
+                                                        size: 25,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
                                                   ),
+                                                  // leading: const Icon(
+                                                  //   Icons.apartment_outlined,
+                                                  //   size: 40,
+                                                  //   color: Colors.grey,
+                                                  // ),
                                                   title: Row(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(empresa.nomeEmpresa),
                                                       const SizedBox(
-                                                        width: 30,
+                                                        width: 50,
                                                       ),
                                                       Text(
                                                         'CNPJ: ${empresa.cnpj}',
                                                         style: TextStyle(color: Colors.black54),
                                                       ),
                                                       const SizedBox(
-                                                        width: 30,
+                                                        width: 50,
                                                       ),
                                                       Text(
                                                         'Telefone: ${empresa.telefone}',
@@ -301,7 +355,6 @@ class _HomeWebState extends State<HomeWeb> {
                                                       },
                                                       child: ButtonSmallIcon(
                                                         context,
-                                                        _auth,
                                                         Icons.edit,
                                                         Colors.grey.shade100,
                                                         Colors.grey,
@@ -312,7 +365,93 @@ class _HomeWebState extends State<HomeWeb> {
                                               ),
                                             ),
                                           )
-                                          .toList(),
+                                          .toList()
+                                          : context.watch<HomeProvicer>().empresas.where((element) =>
+                                            element.nomeEmpresa.toLowerCase().contains(context.watch<HomeProvicer>().textFiltroDireto.toLowerCase())).map(
+                                            (empresa) => Padding(
+                                          padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.5),
+                                                  spreadRadius: 3,
+                                                  blurRadius: 7,
+                                                  offset: const Offset(0, 3), // changes position of shadow
+                                                ),
+                                              ],
+                                              borderRadius: const BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                            ),
+                                            child: ListTile(
+                                              onTap: () {
+                                                ///Salvando no hive a empresa selecionada
+                                                Provider.of<HomeProvicer>(context,listen: false).selecionadaEmpresa(empresa.uid!);
+
+                                                Navigator.pushReplacementNamed(context, '/depositos');
+                                              },
+                                              leading:Padding(
+                                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                                child: CircleAvatar(
+                                                  backgroundColor: Colors.blue.shade300,
+                                                  child: const Icon(
+                                                    Icons.apartment_outlined,
+                                                    size: 25,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              // leading: const Icon(
+                                              //   Icons.apartment_outlined,
+                                              //   size: 40,
+                                              //   color: Colors.grey,
+                                              // ),
+                                              title: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(empresa.nomeEmpresa),
+                                                  const SizedBox(
+                                                    width: 50,
+                                                  ),
+                                                  Text(
+                                                    'CNPJ: ${empresa.cnpj}',
+                                                    style: TextStyle(color: Colors.black54),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 50,
+                                                  ),
+                                                  Text(
+                                                    'Telefone: ${empresa.telefone}',
+                                                    style: TextStyle(color: Colors.black54),
+                                                  ),
+                                                ],
+                                              ),
+                                              subtitle: Text(empresa.descricao),
+                                              trailing:  Material(
+                                                color: Colors.transparent,
+                                                child: InkWell(
+                                                  hoverColor: Colors.grey.shade100,
+                                                  focusColor: Colors.yellow,
+                                                  splashColor: Colors.yellow,
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  onTap: () async {
+                                                    ModalDetalhesDaEmpresa(context, empresa);
+                                                  },
+                                                  child: ButtonSmallIcon(
+                                                    context,
+                                                    Icons.edit,
+                                                    Colors.grey.shade100,
+                                                    Colors.grey,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                          .toList()
                                     ),
                                   ),
                                 ),
@@ -356,7 +495,7 @@ class _HomeWebState extends State<HomeWeb> {
   }
 }
 
-Widget TopContainerCenterPage(BuildContext context, IconData IconContainer, String title) {
+Widget TopContainerCenterPage(BuildContext context, IconData IconContainer, String title, Color color) {
   return Container(
     decoration: BoxDecoration(
       borderRadius: const BorderRadius.only(
@@ -366,23 +505,25 @@ Widget TopContainerCenterPage(BuildContext context, IconData IconContainer, Stri
       //color: Colors.grey.shade100,
       border: Border.all(color: Colors.grey.shade300, width: 0.5),
     ),
-    height: 40,
+    height: 55,
     child: Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 20),
-            child: Icon(
-              IconContainer,
-              //color: Colors.blue.shade400,
-              color: Colors.black54,
-              size: 28,
+            child: CircleAvatar(
+              backgroundColor: color,
+              child: Icon(
+                IconContainer,
+                size: 25,
+                color: Colors.white,
+              ),
             ),
           ),
           Text(
             title,
-            style: const TextStyle(color: Colors.black54, fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(color: Colors.black54, fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const Padding(
             padding: EdgeInsets.only(right: 20),

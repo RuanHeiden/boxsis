@@ -1,3 +1,4 @@
+import 'package:boxsis/mask/mask.dart';
 import 'package:boxsis/modelos/deposito.dart';
 import 'package:boxsis/modelos/empresa.dart';
 import 'package:boxsis/page/view-cadastros/cadastra_deposito.dart';
@@ -10,6 +11,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
+import '../../view/my_textfield.dart';
 
 ModalDetalhesDaDeposito(BuildContext context, Deposito deposito) {
   final _formKeyCadastraEmpresa = GlobalKey<FormState>();
@@ -35,7 +38,11 @@ ModalDetalhesDaDeposito(BuildContext context, Deposito deposito) {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
+                        SizedBox(
+                          height: 50,
+                        ),
                         Center(
                           child: Padding(
                             padding: EdgeInsets.only(top: 25, bottom: 40),
@@ -47,7 +54,7 @@ ModalDetalhesDaDeposito(BuildContext context, Deposito deposito) {
                         ),
                         TextFieldCadastro('Nome', _nomeEmpresaController, TextInputType.text, true),
                         TextFieldCadastro('Descrição', _descricaoEmpresaController, TextInputType.text, false),
-                        TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, false),
+                        TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, false,mask: maskTelefone),
                         TextFieldCadastro('Segmento', _segmentoEmpresaController, TextInputType.text, false),
                         TextFieldCadastro('Endereço', _enderecoEmpresaController, TextInputType.text, false),
                         Padding(
@@ -112,7 +119,10 @@ ModalDetalhesDaDeposito(BuildContext context, Deposito deposito) {
 
                               ],
                             )
-                        )
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
                       ],
                     ),
                   ),
@@ -153,39 +163,39 @@ CadastraDeposito(
     if(value){
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Empresa cadastrada com sucesso !')),
+        const SnackBar(content: Text('Deposito cadastrado com sucesso !')),
       );
     }else{
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Informe os dados corretamente para efetuar o cadastro da empresa !')),
+        const SnackBar(content: Text('Informe os dados corretamente para efetuar o cadastro da deposito !')),
       );
     }
     //value == true ? Navigator.pop(context) : null;
   });
 }
 
-Widget TextFieldCadastro(String nameText, TextEditingController numeroFuncionariosEmpresaController, TextInputType typeText, bool mandatory) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-    //width: 350,
-    // /height: 50,
-    child: TextFormField(
-      obscureText: false,
-      controller: numeroFuncionariosEmpresaController,
-
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelStyle: const TextStyle(
-          color: Colors.black54,
-        ),
-        labelText: nameText.toString(),
-      ),
-      keyboardType: typeText,
-      validator: mandatory
-          ? (text) {
-        if (text!.isEmpty) return "Informe um ${nameText} !";
-      }
-          : null,
-    ),
-  );
-}
+// Widget TextFieldCadastro(String nameText, TextEditingController numeroFuncionariosEmpresaController, TextInputType typeText, bool mandatory) {
+//   return Container(
+//     padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+//     //width: 350,
+//     // /height: 50,
+//     child: TextFormField(
+//       obscureText: false,
+//       controller: numeroFuncionariosEmpresaController,
+//
+//       decoration: InputDecoration(
+//         border: const OutlineInputBorder(),
+//         labelStyle: const TextStyle(
+//           color: Colors.black54,
+//         ),
+//         labelText: nameText.toString(),
+//       ),
+//       keyboardType: typeText,
+//       validator: mandatory
+//           ? (text) {
+//         if (text!.isEmpty) return "Informe um ${nameText} !";
+//       }
+//           : null,
+//     ),
+//   );
+// }
