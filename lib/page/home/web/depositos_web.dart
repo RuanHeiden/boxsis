@@ -1,5 +1,8 @@
 import 'package:boxsis/page/view-cadastros/cadastra_deposito.dart';
+import 'package:boxsis/page/view_detalhes/detalhes_deposito.dart';
+import 'package:boxsis/provider/deposito_provider.dart';
 import 'package:boxsis/provider/home_empresa.dart';
+import 'package:boxsis/services/firebase/deposito_firestore.dart';
 import 'package:boxsis/view/block_logo_line.dart';
 import 'package:boxsis/view/button/button_average_title_icon_color.dart';
 import 'package:boxsis/view/button/button_small.dart';
@@ -21,8 +24,8 @@ class _DepositoWebState extends State<DepositoWeb> {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   void initState() {
-    ///Chamando o Provider que busca a lista de empresas
-    Provider.of<HomeProvicer>(context, listen: false).AtualizaListaDeEmpresasProvider();
+    ///Chamando o Provider que busca a lista de depositos
+     Provider.of<DepositoProvider>(context,listen: false).AtualizaListaDeDepositosProvider(context);
     super.initState();
   }
 
@@ -215,113 +218,106 @@ class _DepositoWebState extends State<DepositoWeb> {
                             ),
                           ],
                         ),
-
-                        // ///Verificando se a empresa cadastrada
-                        // context.watch<HomeProvicer>().empresas.isEmpty
-                        //
-                        // /// se não, mostrar um text com icon
-                        //     ? Center(
-                        //     child: Column(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       crossAxisAlignment: CrossAxisAlignment.center,
-                        //       children: [
-                        //         Text(
-                        //           'Nenhuma Empresa cadastrada !',
-                        //           style: TextStyle(color: Colors.grey.shade300, fontSize: 18),
-                        //         ),
-                        //         Icon(
-                        //           Icons.playlist_add_outlined,
-                        //           color: Colors.grey.shade300,
-                        //           size: 50,
-                        //         ),
-                        //       ],
-                        //     ))
-                        //
-                        // /// se sim, mostrar a lista
-                        //     :
-                        // Expanded(
-                        //   child: Card(
-                        //     child: SingleChildScrollView(
-                        //       child: Column(
-                        //         children: context
-                        //             .watch<HomeProvicer>()
-                        //             .empresas
-                        //             .map(
-                        //               (empresa) =>
-                        //               Padding(
-                        //                 padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
-                        //                 child: Container(
-                        //                   decoration: BoxDecoration(
-                        //                     color: Colors.white,
-                        //                     boxShadow: [
-                        //                       BoxShadow(
-                        //                         color: Colors.grey.withOpacity(0.5),
-                        //                         spreadRadius: 3,
-                        //                         blurRadius: 7,
-                        //                         offset: const Offset(0, 3), // changes position of shadow
-                        //                       ),
-                        //                     ],
-                        //                     borderRadius: const BorderRadius.all(
-                        //                       Radius.circular(5),
-                        //                     ),
-                        //                   ),
-                        //                   child: ListTile(
-                        //                     onTap: () {
-                        //                     },
-                        //                     leading: const Icon(
-                        //                       Icons.apartment_outlined,
-                        //                       size: 40,
-                        //                       color: Colors.grey,
-                        //                     ),
-                        //                     title: Row(
-                        //                       crossAxisAlignment: CrossAxisAlignment.start,
-                        //                       children: [
-                        //                         Text(empresa.nomeEmpresa),
-                        //                         const SizedBox(
-                        //                           width: 30,
-                        //                         ),
-                        //                         Text(
-                        //                           'CNPJ: ${empresa.cnpj}',
-                        //                           style: TextStyle(color: Colors.black54),
-                        //                         ),
-                        //                         const SizedBox(
-                        //                           width: 30,
-                        //                         ),
-                        //                         Text(
-                        //                           'Telefone: ${empresa.telefone}',
-                        //                           style: TextStyle(color: Colors.black54),
-                        //                         ),
-                        //                       ],
-                        //                     ),
-                        //                     subtitle: Text(empresa.descricao),
-                        //                     trailing:  Material(
-                        //                       color: Colors.transparent,
-                        //                       child: InkWell(
-                        //                         hoverColor: Colors.grey.shade100,
-                        //                         focusColor: Colors.yellow,
-                        //                         splashColor: Colors.yellow,
-                        //                         borderRadius: BorderRadius.circular(10),
-                        //                         onTap: () async {
-                        //                           ModalDetalhesDaEmpresa(context, empresa);
-                        //                         },
-                        //                         child: ButtonSmallIcon(
-                        //                           context,
-                        //                           _auth,
-                        //                           Icons.edit,
-                        //                           Colors.grey.shade100,
-                        //                           Colors.grey,
-                        //                         ),
-                        //                       ),
-                        //                     ),
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //         )
-                        //             .toList(),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // )
+                        context.watch<DepositoProvider>().depositos.isEmpty
+                            ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Nenhum deposito cadastrado !',
+                                  style: TextStyle(color: Colors.grey.shade300, fontSize: 18),
+                                ),
+                                Icon(
+                                  Icons.playlist_add_outlined,
+                                  color: Colors.grey.shade300,
+                                  size: 50,
+                                ),
+                              ],
+                            ))
+                            : Expanded(
+                          child: Card(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: context
+                                    .watch<DepositoProvider>()
+                                    .depositos
+                                    .map(
+                                      (deposito) =>
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey.withOpacity(0.5),
+                                                spreadRadius: 3,
+                                                blurRadius: 7,
+                                                offset: const Offset(0, 3), // changes position of shadow
+                                              ),
+                                            ],
+                                            borderRadius: const BorderRadius.all(
+                                              Radius.circular(5),
+                                            ),
+                                          ),
+                                          child: ListTile(
+                                            onTap: () {
+                                            },
+                                            leading: const Icon(
+                                              Icons.widgets,
+                                              size: 40,
+                                              color: Colors.grey,
+                                            ),
+                                            title: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(deposito.nomeEmpresa),
+                                                const SizedBox(
+                                                  width: 30,
+                                                ),
+                                                Text(
+                                                  'CNPJ: ${deposito.endereco}',
+                                                  style: TextStyle(color: Colors.black54),
+                                                ),
+                                                const SizedBox(
+                                                  width: 30,
+                                                ),
+                                                Text(
+                                                  'Telefone: ${deposito.telefone}',
+                                                  style: TextStyle(color: Colors.black54),
+                                                ),
+                                              ],
+                                            ),
+                                            subtitle: Text(deposito.descricao),
+                                            trailing:  Material(
+                                              color: Colors.transparent,
+                                              child: InkWell(
+                                                hoverColor: Colors.grey.shade100,
+                                                focusColor: Colors.yellow,
+                                                splashColor: Colors.yellow,
+                                                borderRadius: BorderRadius.circular(10),
+                                                onTap: () async {
+                                                  ModalDetalhesDaDeposito(context, deposito);
+                                                },
+                                                child: ButtonSmallIcon(
+                                                  context,
+                                                  _auth,
+                                                  Icons.edit,
+                                                  Colors.grey.shade100,
+                                                  Colors.grey,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                )
+                                    .toList(),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

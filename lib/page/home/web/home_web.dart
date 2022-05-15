@@ -2,7 +2,7 @@ import 'package:boxsis/modelos/empresa.dart';
 import 'package:boxsis/page/view-cadastros/cadatra_empresa.dart';
 import 'package:boxsis/page/view_detalhes/detalhes_empresa.dart';
 import 'package:boxsis/provider/home_empresa.dart';
-import 'package:boxsis/services/busca_empresas_cadastrada.dart';
+import 'package:boxsis/services/empresas_cadastrada.dart';
 import 'package:boxsis/services/firebase/empresa_firestore.dart';
 import 'package:boxsis/themes/colors.dart';
 import 'package:boxsis/view/block_logo_line.dart';
@@ -258,6 +258,8 @@ class _HomeWebState extends State<HomeWeb> {
                                                 ),
                                                 child: ListTile(
                                                   onTap: () {
+                                                    ///Salvando no hive a empresa selecionada
+                                                    Provider.of<HomeProvicer>(context,listen: false).selecionadaEmpresa(empresa.uid!);
 
                                                     Navigator.pushReplacementNamed(context, '/depositos');
                                                   },

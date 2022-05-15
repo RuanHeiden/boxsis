@@ -1,4 +1,6 @@
+import 'package:boxsis/modelos/deposito.dart';
 import 'package:boxsis/modelos/empresa.dart';
+import 'package:boxsis/provider/deposito_provider.dart';
 import 'package:boxsis/provider/home_empresa.dart';
 import 'package:boxsis/services/firebase/empresa_firestore.dart';
 import 'package:boxsis/view/button/button_average_title_icon_color.dart';
@@ -7,15 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../../services/firebase/deposito_firestore.dart';
+
 ModalCadastraDeposito(BuildContext context) {
-  final _formKeyCadastraEmpresa = GlobalKey<FormState>();
-  final _nomeEmpresaController = TextEditingController();
-  final _nomeFantasiaEmpresaController = TextEditingController();
-  final _descricaoEmpresaController = TextEditingController();
-  final _cnpjEmpresaController = TextEditingController();
-  final _telefoneEmpresaController = TextEditingController();
-  final _segmentoEmpresaController = TextEditingController();
-  final _enderecoEmpresaController = TextEditingController();
+  final _formKeyCadastraDeposito = GlobalKey<FormState>();
+  final _nomeDepositoController = TextEditingController();
+ // final _nomeFantasiaEmpresaController = TextEditingController();
+  final _descricaoDepositoController = TextEditingController();
+  //final _cnpjEmpresaController = TextEditingController();
+  final _telefoneDepositoController = TextEditingController();
+  final _segmentoDepositoController = TextEditingController();
+  final _enderecoDepositoController = TextEditingController();
 
   showDialog(
     context: context,
@@ -28,7 +32,7 @@ ModalCadastraDeposito(BuildContext context) {
               flex: 1,
               child: Container(
                 child: Form(
-                  key: _formKeyCadastraEmpresa,
+                  key: _formKeyCadastraDeposito,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -42,13 +46,13 @@ ModalCadastraDeposito(BuildContext context) {
                           ),
                         ),
                       ),
-                      TextFieldCadastro('Nome', _nomeEmpresaController, TextInputType.text, true),
-                      TextFieldCadastro('Nome Fantasia', _nomeFantasiaEmpresaController, TextInputType.text, true),
-                      TextFieldCadastro('Descrição', _descricaoEmpresaController, TextInputType.text, false),
-                      TextFieldCadastro('CNPJ', _cnpjEmpresaController, TextInputType.number, true),
-                      TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, false),
-                      TextFieldCadastro('Segmento', _segmentoEmpresaController, TextInputType.text, false),
-                      TextFieldCadastro('Endereço', _enderecoEmpresaController, TextInputType.text, false),
+                      TextFieldCadastro('Nome', _nomeDepositoController, TextInputType.text, true),
+                     // TextFieldCadastro('Nome Fantasia', _nomeFantasiaEmpresaController, TextInputType.text, true),
+                      TextFieldCadastro('Descrição', _descricaoDepositoController, TextInputType.text, false),
+                      //TextFieldCadastro('CNPJ', _cnpjEmpresaController, TextInputType.number, true),
+                      TextFieldCadastro('Telefone', _telefoneDepositoController, TextInputType.phone, false),
+                      TextFieldCadastro('Segmento', _segmentoDepositoController, TextInputType.text, false),
+                      TextFieldCadastro('Endereço', _enderecoDepositoController, TextInputType.text, false),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 5),
                         child: Container(
@@ -56,21 +60,29 @@ ModalCadastraDeposito(BuildContext context) {
                           height: 40,
                           child: InkWell(
                             onTap: () {
-                              if (_formKeyCadastraEmpresa.currentState!.validate()) {
-                                CadastraEmpresa(
-                                    context,
-                                    _nomeEmpresaController.text,
-                                    _nomeFantasiaEmpresaController.text,
-                                    _descricaoEmpresaController.text,
-                                    _cnpjEmpresaController.text,
-                                    _telefoneEmpresaController.text,
-                                    _segmentoEmpresaController.text,
-                                    _enderecoEmpresaController.text
-                                ).then((value){
-                                  if(!value){
-                                    Provider.of<HomeProvicer>(context,listen: false).AtualizaListaDeEmpresasProvider();
-                                  }
-                                });
+                              if (_formKeyCadastraDeposito.currentState!.validate()) {
+                                CadastraDeposito(
+                                  context,
+                                  _nomeDepositoController.text,
+                                  _descricaoDepositoController.text,
+                                  _telefoneDepositoController.text,
+                                  _segmentoDepositoController.text,
+                                  _enderecoDepositoController.text
+                                );
+                                // CadastraEmpresa(
+                                //     context,
+                                //     _nomeEmpresaController.text,
+                                //     _nomeFantasiaEmpresaController.text,
+                                //     _descricaoEmpresaController.text,
+                                //     //_cnpjEmpresaController.text,
+                                //     _telefoneEmpresaController.text,
+                                //     _segmentoEmpresaController.text,
+                                //     _enderecoEmpresaController.text
+                                // ).then((value){
+                                //   if(!value){
+                                //     Provider.of<HomeProvicer>(context,listen: false).AtualizaListaDeEmpresasProvider();
+                                //   }
+                                //});
 
                               } else {
                                 ///TRATAR
@@ -150,12 +162,10 @@ ModalCadastraDeposito(BuildContext context) {
 }
 
 ///Pegando os dados informados pelo usuario e montando o objeto empresa para iniciar o cadastro
-Future<bool> CadastraEmpresa(
+Future<bool> CadastraDeposito(
     BuildContext context,
     String nomeEmpresa,
-    String nomeFantasia,
     String descricao,
-    String cnpj,
     String telefone,
     String segmento,
     String endereco,
@@ -164,19 +174,19 @@ Future<bool> CadastraEmpresa(
   final timeTicksNow = DateTime.now().millisecondsSinceEpoch;
   String timeUID = timeTicksNow.toString();
   //ruan
-  Empresa empresa = Empresa(
-    timeUID,
-    nomeEmpresa,
-    nomeFantasia,
-    descricao,
-    cnpj,
-    telefone,
-    segmento,
-    endereco,
+  Deposito deposito = Deposito(
+     timeUID.toString(),
+     nomeEmpresa,
+     descricao,
+     telefone,
+     segmento,
+     endereco,
   );
 
-  await GravaEmpresa(context, empresa, timeUID).then((value){
+  await gravaDeposito(context, deposito, timeUID).then((value){
     if(value){
+
+      Provider.of<DepositoProvider>(context,listen: false).AtualizaListaDeDepositosProvider(context);
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Empresa cadastrada com sucesso !')),

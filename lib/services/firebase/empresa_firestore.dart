@@ -77,8 +77,10 @@ Future<List> getEmpresa() async {
 
 
   for(int i = 0; i < arrayDeIdEmpresa.length; i++){
-    var snapshotsEmpresa = await _firebaseFirestore.collection('Empresas').doc(arrayDeIdEmpresa[i]).get();
-
+    var snapshotsEmpresa = await _firebaseFirestore
+        .collection('Empresas')
+        .doc(arrayDeIdEmpresa[i])
+        .get();
     ListaDeEmpresas.add(snapshotsEmpresa.data());
   }
   // print(snapshotsEmpresa.docs[0].id);
@@ -87,7 +89,10 @@ Future<List> getEmpresa() async {
 
 
 Future<List<String>> getEmpresasUsuarioLogado(String idPessoaLogada) async {
-  var snapshotsEmpresa = await _firebaseFirestore.collection('Usuarios').doc(idPessoaLogada).get();
+  var snapshotsEmpresa = await _firebaseFirestore
+      .collection('Usuarios')
+      .doc(idPessoaLogada)
+      .get();
   List<String> arrayDeIdEmpresa = [];
   for (int i = 0; i < snapshotsEmpresa['empresas'].length; i++) {
     arrayDeIdEmpresa.add(snapshotsEmpresa['empresas'][i]);

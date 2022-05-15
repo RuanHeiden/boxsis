@@ -1,4 +1,5 @@
 import 'package:boxsis/page/login.dart';
+import 'package:boxsis/provider/deposito_provider.dart';
 import 'package:boxsis/provider/login_register_provider.dart';
 import 'package:boxsis/services/firebase/verifica_usuario_logado.dart';
 import 'package:boxsis/uteis/rotas.dart';
@@ -47,6 +48,7 @@ class _MyAppState extends State<MyApp> {
         providers: [
           ChangeNotifierProvider(create: (_) => LoginRegisterProvider()),
           ChangeNotifierProvider(create: (_) => HomeProvicer()),
+          ChangeNotifierProvider(create: (_) => DepositoProvider(),)
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

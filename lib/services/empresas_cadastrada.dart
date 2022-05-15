@@ -23,3 +23,4 @@ Future<List<Empresa>> BuscaEmpresaCadastrada() async{
   }
   return empresas;
 }
+
