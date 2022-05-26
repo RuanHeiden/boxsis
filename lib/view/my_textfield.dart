@@ -11,20 +11,19 @@ Widget TextFieldCadastro(String nameText, TextEditingController controller, Text
       inputFormatters: mask != null ? [mask] : [],
       obscureText: false,
       controller: controller,
-
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         labelStyle: const TextStyle(
           color: Colors.black54,
         ),
-        labelText: nameText.toString(),
+        labelText: obrigatorio ? '${nameText.toString()}*' : nameText.toString(),
       ),
       keyboardType: typeText,
       validator: obrigatorio
           ? (text) {
         if (text!.isEmpty) return "Informe um ${nameText} !";
-      }
-          : null,
+        return null;
+      } : null,
     ),
   );
 }

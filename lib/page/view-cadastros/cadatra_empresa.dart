@@ -31,65 +31,67 @@ ModalCadastraEmpresa(BuildContext context) {
               flex: 1,
               child: Form(
                 key: _formKeyCadastraEmpresa,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 25, bottom: 40),
-                        child: Text(
-                          'Cadastre sua empresa',
-                          style: TextStyle(color: Colors.black54, fontSize: 23),
-                        ),
-                      ),
-                    ),
-                    TextFieldCadastro('Nome', _nomeEmpresaController, TextInputType.text, true),
-                    TextFieldCadastro('Nome Fantasia', _nomeFantasiaEmpresaController, TextInputType.text, true),
-                    TextFieldCadastro('Descrição', _descricaoEmpresaController, TextInputType.text, false),
-                    TextFieldCadastro('CNPJ', _cnpjEmpresaController, TextInputType.number, true, mask: maskCNPJ),
-                    TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, false, mask: maskTelefone),
-                    TextFieldCadastro('Segmento', _segmentoEmpresaController, TextInputType.text, false),
-                    TextFieldCadastro('Endereço', _enderecoEmpresaController, TextInputType.text, false),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 5),
-                      child: Container(
-                        width: 140,
-                        height: 40,
-                        child: InkWell(
-                          onTap: () {
-                            if (_formKeyCadastraEmpresa.currentState!.validate()) {
-                              CadastraEmpresa(
-                                context,
-                                _nomeEmpresaController.text,
-                                _nomeFantasiaEmpresaController.text,
-                                _descricaoEmpresaController.text,
-                                _cnpjEmpresaController.text,
-                                _telefoneEmpresaController.text,
-                                _segmentoEmpresaController.text,
-                                _enderecoEmpresaController.text
-                              ).then((value){
-                                if(!value){
-                                  Provider.of<HomeProvicer>(context,listen: false).AtualizaListaDeEmpresasProvider();
-                                }
-                              });
-
-                            } else {
-                              ///TRATAR
-                            }
-                          },
-                          child: buttonAverageTitleIconColor(
-                            name: 'Cadastrar',
-                            iconDoButton: Icons.add_business,
-                            corDoTexto: Colors.white,
-                            corDoIcon: Colors.white,
-                            corDoBotao: Colors.blue,
+                child: SingleChildScrollView(
+                  child:Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 25, bottom: 40),
+                          child: Text(
+                            'Cadastre sua empresa',
+                            style: TextStyle(color: Colors.black54, fontSize: 23),
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
+                      TextFieldCadastro('Nome', _nomeEmpresaController, TextInputType.text, true),
+                      TextFieldCadastro('Nome Fantasia', _nomeFantasiaEmpresaController, TextInputType.text, true),
+                      TextFieldCadastro('Descrição', _descricaoEmpresaController, TextInputType.text, false),
+                      TextFieldCadastro('CNPJ', _cnpjEmpresaController, TextInputType.number, true, mask: maskCNPJ),
+                      TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, false, mask: maskTelefone),
+                      TextFieldCadastro('Segmento', _segmentoEmpresaController, TextInputType.text, false),
+                      TextFieldCadastro('Endereço', _enderecoEmpresaController, TextInputType.text, false),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 5),
+                        child: Container(
+                          width: 140,
+                          height: 40,
+                          child: InkWell(
+                            onTap: () {
+                              if (_formKeyCadastraEmpresa.currentState!.validate()) {
+                                CadastraEmpresa(
+                                    context,
+                                    _nomeEmpresaController.text,
+                                    _nomeFantasiaEmpresaController.text,
+                                    _descricaoEmpresaController.text,
+                                    _cnpjEmpresaController.text,
+                                    _telefoneEmpresaController.text,
+                                    _segmentoEmpresaController.text,
+                                    _enderecoEmpresaController.text
+                                ).then((value){
+                                  if(!value){
+                                    Provider.of<HomeProvicer>(context,listen: false).AtualizaListaDeEmpresasProvider();
+                                  }
+                                });
+
+                              } else {
+                                ///TRATAR
+                              }
+                            },
+                            child: buttonAverageTitleIconColor(
+                              name: 'Cadastrar',
+                              iconDoButton: Icons.add_business,
+                              corDoTexto: Colors.white,
+                              corDoIcon: Colors.white,
+                              corDoBotao: Colors.blue,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
               ),
             ),
             Expanded(

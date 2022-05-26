@@ -10,7 +10,7 @@ Future<List<Deposito>> BuscaDepositoCadastrado(BuildContext context) async {
     var depositoUnidade = listaDeposito[i];
     Deposito deposito = Deposito(
       depositoUnidade['uid'] ?? '',
-      depositoUnidade['nomeEmpresa'] ?? '',
+      depositoUnidade['nomeDeposito'] ?? '',
       depositoUnidade['descricao'] ?? '',
       depositoUnidade['telefone'] ?? '',
       depositoUnidade['segmento'] ?? '',

@@ -1,6 +1,7 @@
 import 'package:boxsis/page/login.dart';
 import 'package:boxsis/provider/deposito_provider.dart';
 import 'package:boxsis/provider/login_register_provider.dart';
+import 'package:boxsis/provider/produto_provider.dart';
 import 'package:boxsis/services/firebase/verifica_usuario_logado.dart';
 import 'package:boxsis/uteis/rotas.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,7 +21,6 @@ void main() async {
           messagingSenderId: "1098699944504",
           appId: "1:1098699944504:web:9fe44de3c26ac7cb42accd"
       ),
-
   );
 
   runApp(MyApp());
@@ -48,11 +48,12 @@ class _MyAppState extends State<MyApp> {
         providers: [
           ChangeNotifierProvider(create: (_) => LoginRegisterProvider()),
           ChangeNotifierProvider(create: (_) => HomeProvicer()),
-          ChangeNotifierProvider(create: (_) => DepositoProvider(),)
+          ChangeNotifierProvider(create: (_) => DepositoProvider(),),
+          ChangeNotifierProvider(create: (_) => ProdutoProvider(),)
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'SIS.box',
+          title: 'Sis.Box',
           ///Colors primárias para inicialização de cores
           theme: ThemeData(
               primarySwatch: Colors.yellow,

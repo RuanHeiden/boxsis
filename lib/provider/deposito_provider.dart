@@ -7,9 +7,33 @@ import 'package:flutter/material.dart';
 class DepositoProvider with ChangeNotifier{
   List<Deposito> depositos = [];
   String depositoSelecionado = '';
+  String textFiltroDiretoDeposito = '';
 
   Future<void> AtualizaListaDeDepositosProvider(BuildContext context) async{
     depositos = await BuscaDepositoCadastrado(context);
+    notifyListeners();
+  }
+
+  limpaListaDeDepositoProvider() {
+    depositos.clear(); //Limpa lista de empresas
+    notifyListeners();
+  }
+
+  selecionadaDeposito(String deposito ){
+    depositoSelecionado = deposito;
+    notifyListeners();
+  }
+
+
+  ///Filtro
+  limpaDepositoSelecionada(){
+    selecionadaDeposito('');
+    limpaListaDeDepositoProvider();
+    notifyListeners();
+  }
+
+  filtrandoDireto(value){
+    textFiltroDiretoDeposito = value;
     notifyListeners();
   }
 

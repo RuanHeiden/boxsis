@@ -1,4 +1,3 @@
-
 class Empresa{
     String? uid;
     String nomeEmpresa;
@@ -22,14 +21,9 @@ class Empresa{
 
     Map<String, dynamic> toMap(){
       Map<String, dynamic> map = {
-        "uid" : uid,
-        "nomeEmpresa" : nomeEmpresa,
-        "nomeFantasia" : nomeFantasia,
-        "descricao" : descricao,
-        "cnpj" : cnpj,
-        "telefone" : telefone,
-        "segmento" : segmento,
-        "endereco" : endereco,
+        "uid" : uid, "nomeEmpresa" : nomeEmpresa,
+        "nomeFantasia" : nomeFantasia, "descricao" : descricao,
+        "cnpj" : cnpj, "telefone" : telefone, "segmento" : segmento, "endereco" : endereco,
       };
       return map;
     }

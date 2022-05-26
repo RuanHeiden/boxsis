@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Usuario{
   String idUsuario;
   String nome;
@@ -25,5 +23,4 @@ class Usuario{
     };
     return map;
   }
-
 }

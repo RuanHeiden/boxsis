@@ -204,6 +204,7 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
             if (text!.isEmpty || !text.contains('@')) return "Informe um E-mail valido !";
           },
         ),
+
         const SizedBox(
           height: 20,
         ),
@@ -223,6 +224,7 @@ Widget widgetDeLogin(context, emailLoginController, senhaLoginController, formKe
             if (text!.isEmpty) return "Informe uma senha valida !";
           },
         ),
+        
         const SizedBox(
           height: 40,
         ),
@@ -432,8 +434,6 @@ CadastraUsuario(BuildContext context, String email, String senha, String nome, S
     },
   );
 }
-
-
 
 Future<bool> LoginUsuario(BuildContext context, String email, String senha) async {
   try {

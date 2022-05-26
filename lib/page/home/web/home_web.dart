@@ -38,7 +38,7 @@ class _HomeWebState extends State<HomeWeb> {
     Navigator.pushReplacementNamed(context, '/login');
   }
 
-  final _filtroController = TextEditingController();
+  final _filtroEmpresaController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -153,41 +153,7 @@ class _HomeWebState extends State<HomeWeb> {
                             ),
                             Row(
                               children: [
-                                Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    hoverColor: Colors.grey.shade100,
-                                    focusColor: Colors.yellow,
-                                    splashColor: Colors.yellow,
-                                    borderRadius: BorderRadius.circular(10),
-                                    onTap: () async {},
-                                    child: ButtonSmallIcon(
-                                      context,
-                                      Icons.apps,
-                                      Colors.grey.shade100,
-                                      Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    hoverColor: Colors.grey.shade100,
-                                    focusColor: Colors.yellow,
-                                    splashColor: Colors.yellow,
-                                    borderRadius: BorderRadius.circular(10),
-                                    onTap: () async {},
-                                    child: ButtonSmallIcon(
-                                      context,
-                                      Icons.menu,
-                                      Colors.grey.shade100,
-                                      Colors.grey,
-                                    ),
-                                  ),
-                                ),
+
                                 const SizedBox(
                                   width: 30,
                                 ),
@@ -198,7 +164,7 @@ class _HomeWebState extends State<HomeWeb> {
                                       height: 40,
                                       child: TextFormField(
                                         obscureText: false,
-                                        controller: _filtroController,
+                                        controller: _filtroEmpresaController,
                                         decoration: const InputDecoration(
                                           border: OutlineInputBorder(),
                                           labelStyle: TextStyle(
@@ -224,7 +190,7 @@ class _HomeWebState extends State<HomeWeb> {
                                         borderRadius: BorderRadius.circular(10),
                                         onTap: () async {
                                           ///Limpa filtro direto
-                                          _filtroController.text = '';
+                                          _filtroEmpresaController.text = '';
                                           Provider.of<HomeProvicer>(context, listen: false).filtrandoDireto('');
                                         },
                                         child: ButtonSmallIcon(
@@ -237,15 +203,18 @@ class _HomeWebState extends State<HomeWeb> {
                                     ),
                                   ],
                                 ),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                    width: 160,
-                                    height: 50,
-                                    child: buttonAverageTitleIconColor(name: 'Filtros', corDoTexto: Colors.white, iconDoButton: Icons.search, corDoIcon: Colors.white, corDoBotao: Colors.orange),
-                                  ),
+                                const SizedBox(
+                                  width: 10,
                                 ),
+                                // InkWell(
+                                //   onTap: () {},
+                                //   child: Container(
+                                //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                //     width: 160,
+                                //     height: 50,
+                                //     child: buttonAverageTitleIconColor(name: 'Filtros', corDoTexto: Colors.white, iconDoButton: Icons.search, corDoIcon: Colors.white, corDoBotao: Colors.orange),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ],
@@ -278,11 +247,10 @@ class _HomeWebState extends State<HomeWeb> {
                                 child: Card(
                                   child: SingleChildScrollView(
                                     child: Column(
-                                      children: context.watch<HomeProvicer>().textFiltroDireto == ''
-                                        ?context
+                                      children: context.watch<HomeProvicer>().textFiltroDiretoEmpresa == ''
+                                          ? context
                                           .watch<HomeProvicer>()
-                                          .empresas.map(
-                                            (empresa) => Padding(
+                                          .empresas.map((empresa) => Padding(
                                               padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
                                               child: Container(
                                                 decoration: BoxDecoration(
@@ -363,11 +331,14 @@ class _HomeWebState extends State<HomeWeb> {
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          )
+                                            ),)
                                           .toList()
+
                                           : context.watch<HomeProvicer>().empresas.where((element) =>
-                                            element.nomeEmpresa.toLowerCase().contains(context.watch<HomeProvicer>().textFiltroDireto.toLowerCase())).map(
+                                            element
+                                                .nomeEmpresa
+                                                .toLowerCase()
+                                                .contains(context.watch<HomeProvicer>().textFiltroDiretoEmpresa.toLowerCase())).map(
                                             (empresa) => Padding(
                                           padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
                                           child: Container(

@@ -11,15 +11,12 @@ String? idAuth = _auth.currentUser?.uid;
 
 Future<bool> gravaDeposito(BuildContext context, Deposito deposito, String timeUID) async {
   try {
-    ///Pega o id do usuario logado
     var idPessoaLogada = _auth.currentUser?.uid;
 
-    ///Pega o id da empresa selecionada
     var idEmpresaSelecionada = Provider.of<HomeProvicer>(context, listen: false).empresaSelecionada;
 
-    ///Pega o caminho para chegar na empresa selecionada
-    final EmpresaRef = _firebaseFirestore.collection('Empresas').doc(idEmpresaSelecionada).collection('Depositos').doc(timeUID);
-    EmpresaRef.set(deposito.toMap());
+    final _empresaRef = _firebaseFirestore.collection('Empresas').doc(idEmpresaSelecionada).collection('Depositos').doc(timeUID);
+    _empresaRef.set(deposito.toMap());
 
     return true;
   } catch (e) {

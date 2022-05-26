@@ -16,21 +16,23 @@ class Responsivo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints){
-      if(constraints.maxWidth >= 1200 ){
-        return web;
+      // if(constraints.maxWidth >= 1200 ){
+      //   return web;
+      //
+      // }else if(constraints.maxWidth >= 800) {
+      //   Widget? resTablet = this.tablet;
+      //     if(resTablet != null){
+      //       return resTablet;
+      //
+      //     }else{
+      //       return web;
+      //     }
+      // }else{
+      //   return mobile;
+      //
+      // }
 
-      }else if(constraints.maxWidth >= 800) {
-        Widget? resTablet = this.tablet;
-          if(resTablet != null){
-            return resTablet;
-
-          }else{
-            return web;
-          }
-      }else{
-        return mobile;
-
-      }
+      return web;
     });
   }
 }

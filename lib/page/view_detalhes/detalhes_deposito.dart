@@ -16,7 +16,7 @@ import '../../view/my_textfield.dart';
 
 ModalDetalhesDaDeposito(BuildContext context, Deposito deposito) {
   final _formKeyCadastraEmpresa = GlobalKey<FormState>();
-  final _nomeEmpresaController = TextEditingController( text: deposito.nomeEmpresa);
+  final _nomeEmpresaController = TextEditingController( text: deposito.nomeDeposito);
   final _descricaoEmpresaController = TextEditingController(text: deposito.descricao);
   final _telefoneEmpresaController = TextEditingController(text: deposito.telefone);
   final _segmentoEmpresaController = TextEditingController(text: deposito.segmento);
@@ -35,96 +35,96 @@ ModalDetalhesDaDeposito(BuildContext context, Deposito deposito) {
                   flex: 1,
                   child: Form(
                     key: _formKeyCadastraEmpresa,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 25, bottom: 40),
-                            child: Text(
-                              'Detalhes da Empresa ${deposito.nomeEmpresa}',
-                              style: TextStyle(color: Colors.black54, fontSize: 23),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          Center(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 25, bottom: 40),
+                              child: Text(
+                                'Detalhes do deposito ${deposito.nomeDeposito}',
+                                style: TextStyle(color: Colors.black54, fontSize: 23),
+                              ),
                             ),
                           ),
-                        ),
-                        TextFieldCadastro('Nome', _nomeEmpresaController, TextInputType.text, true),
-                        TextFieldCadastro('Descrição', _descricaoEmpresaController, TextInputType.text, false),
-                        TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, false,mask: maskTelefone),
-                        TextFieldCadastro('Segmento', _segmentoEmpresaController, TextInputType.text, false),
-                        TextFieldCadastro('Endereço', _enderecoEmpresaController, TextInputType.text, false),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
+                          TextFieldCadastro('Nome', _nomeEmpresaController, TextInputType.text, true),
+                          TextFieldCadastro('Descrição', _descricaoEmpresaController, TextInputType.text, false),
+                          TextFieldCadastro('Telefone', _telefoneEmpresaController, TextInputType.phone, false,mask: maskTelefone),
+                          TextFieldCadastro('Segmento', _segmentoEmpresaController, TextInputType.text, false),
+                          TextFieldCadastro('Endereço', _enderecoEmpresaController, TextInputType.text, false),
+                          Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
 
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  width: 140,
-                                  height: 40,
-                                  child: InkWell(
-                                    onTap: () {
-                                      if (_formKeyCadastraEmpresa.currentState!.validate()) {
-                                        DeletaDeposito(context, deposito);
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 10),
+                                    width: 140,
+                                    height: 40,
+                                    child: InkWell(
+                                      onTap: () async {
+                                        print('deposito ${deposito.uid}');
+
+                                        await DeletaDeposito(context, deposito);
                                         Provider.of<DepositoProvider>(context,listen: false).AtualizaListaDeDepositosProvider(context);
                                         Navigator.pop(context);
-                                      } else {
-                                        ///TRATAR
-                                      }
-                                    },
-                                    child: buttonAverageTitleIconColor(
-                                      name: 'Excluir ',
-                                      iconDoButton: Icons.clear,
-                                      corDoTexto: Colors.white,
-                                      corDoIcon: Colors.white,
-                                      corDoBotao: Colors.red,
+                                      },
+                                      child: buttonAverageTitleIconColor(
+                                        name: 'Excluir ',
+                                        iconDoButton: Icons.clear,
+                                        corDoTexto: Colors.white,
+                                        corDoIcon: Colors.white,
+                                        corDoBotao: Colors.red,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  width: 120,
-                                  height: 40,
-                                  child: InkWell(
-                                    onTap: () {
-                                      if (_formKeyCadastraEmpresa.currentState!.validate()) {
-                                        CadastraDeposito(
-                                          context,
-                                          _nomeEmpresaController.text,
-                                          _descricaoEmpresaController.text,
-                                          _telefoneEmpresaController.text,
-                                          _segmentoEmpresaController.text,
-                                          _enderecoEmpresaController.text,
-                                          deposito.uid.toString() ,
-                                        );
+                                  Container(
+                                    width: 120,
+                                    height: 40,
+                                    child: InkWell(
+                                      onTap: () {
+                                        if (_formKeyCadastraEmpresa.currentState!.validate()) {
+                                          CadastraDeposito(
+                                            context,
+                                            _nomeEmpresaController.text,
+                                            _descricaoEmpresaController.text,
+                                            _telefoneEmpresaController.text,
+                                            _segmentoEmpresaController.text,
+                                            _enderecoEmpresaController.text,
+                                            deposito.uid.toString() ,
+                                          );
 
-                                        Provider.of<DepositoProvider>(context,listen: false).AtualizaListaDeDepositosProvider(context);
-                                      } else {
-                                        ///TRATAR
-                                      }
-                                    },
-                                    child: buttonAverageTitleIconColor(
-                                      name: 'Editar ',
-                                      iconDoButton: Icons.edit,
-                                      corDoTexto: Colors.white,
-                                      corDoIcon: Colors.white,
-                                      corDoBotao: Colors.blue,
+                                          Provider.of<DepositoProvider>(context,listen: false).AtualizaListaDeDepositosProvider(context);
+                                        } else {
+                                          ///TRATAR
+                                        }
+                                      },
+                                      child: buttonAverageTitleIconColor(
+                                        name: 'Editar ',
+                                        iconDoButton: Icons.edit,
+                                        corDoTexto: Colors.white,
+                                        corDoIcon: Colors.white,
+                                        corDoBotao: Colors.blue,
+                                      ),
                                     ),
                                   ),
-                                ),
 
-                              ],
-                            )
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                      ],
-                    ),
+                                ],
+                              )
+                          ),
+                          SizedBox(
+                            height: 50,
+                          ),
+                        ],
+                      ),
+                    )
                   ),
                 ),
               ],

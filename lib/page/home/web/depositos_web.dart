@@ -1,4 +1,7 @@
+import 'package:boxsis/modelos/deposito.dart';
+import 'package:boxsis/modelos/empresa.dart';
 import 'package:boxsis/page/view-cadastros/cadastra_deposito.dart';
+import 'package:boxsis/page/view-cadastros/cadastra_produto.dart';
 import 'package:boxsis/page/view_detalhes/detalhes_deposito.dart';
 import 'package:boxsis/provider/deposito_provider.dart';
 import 'package:boxsis/provider/home_empresa.dart';
@@ -23,6 +26,9 @@ class DepositoWeb extends StatefulWidget {
 class _DepositoWebState extends State<DepositoWeb> {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
+
+  final _filtroDepositoController = TextEditingController();
+
   void initState() {
     ///Chamando o Provider que busca a lista de depositos
     Provider.of<DepositoProvider>(context, listen: false).AtualizaListaDeDepositosProvider(context);
@@ -45,6 +51,7 @@ class _DepositoWebState extends State<DepositoWeb> {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
+                Provider.of<HomeProvicer>(context,listen: false).limpaEmpresaSelecionada();
                 Navigator.pushReplacementNamed(context, '/home');
               },
               hoverColor: Colors.grey.shade100,
@@ -162,53 +169,68 @@ class _DepositoWebState extends State<DepositoWeb> {
                             ),
                             Row(
                               children: [
-                                Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    hoverColor: Colors.grey.shade100,
-                                    focusColor: Colors.yellow,
-                                    splashColor: Colors.yellow,
-                                    borderRadius: BorderRadius.circular(10),
-                                    onTap: () async {},
-                                    child: ButtonSmallIcon(
-                                      context,
-                                      Icons.apps,
-                                      Colors.grey.shade100,
-                                      Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    hoverColor: Colors.grey.shade100,
-                                    focusColor: Colors.yellow,
-                                    splashColor: Colors.yellow,
-                                    borderRadius: BorderRadius.circular(10),
-                                    onTap: () async {},
-                                    child: ButtonSmallIcon(
-                                      context,
-                                      Icons.menu,
-                                      Colors.grey.shade100,
-                                      Colors.grey,
-                                    ),
-                                  ),
-                                ),
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                    width: 160,
-                                    height: 50,
-                                    child: buttonAverageTitleIconColor(name: 'Filtros', corDoTexto: Colors.white, iconDoButton: Icons.search, corDoIcon: Colors.white, corDoBotao: Colors.orange),
-                                  ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 200,
+                                      height: 40,
+                                      child: TextFormField(
+                                        obscureText: false,
+                                        controller: _filtroDepositoController,
+                                        decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelStyle: TextStyle(
+                                            color: Colors.black54,
+                                          ),
+                                          labelText: 'Filtro',
+                                        ),
+                                        onChanged: (value){
+                                          Provider.of<DepositoProvider>(context, listen: false).filtrandoDireto(value);
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 4,
+                                    ),
+
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        hoverColor: Colors.grey.shade100,
+                                        focusColor: Colors.yellow,
+                                        splashColor: Colors.yellow,
+                                        borderRadius: BorderRadius.circular(10),
+                                        onTap: () async {
+                                          ///Limpa filtro direto
+                                          _filtroDepositoController.text = '';
+                                          Provider.of<DepositoProvider>(context, listen: false).filtrandoDireto('');
+                                        },
+                                        child: ButtonSmallIcon(
+                                          context,
+                                          Icons.close,
+                                          Colors.grey.shade100,
+                                          Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                  ],
                                 ),
+                                // InkWell(
+                                //   onTap: () {
+                                //   },
+                                //   child: Container(
+                                //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                //     width: 160,
+                                //     height: 50,
+                                //     child: buttonAverageTitleIconColor(name: 'Filtros', corDoTexto: Colors.white, iconDoButton: Icons.search, corDoIcon: Colors.white, corDoBotao: Colors.orange),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ],
@@ -234,11 +256,14 @@ class _DepositoWebState extends State<DepositoWeb> {
                                 child: Card(
                                   child: SingleChildScrollView(
                                     child: Column(
-                                      children: context
+                                      children: context.watch<DepositoProvider>().textFiltroDiretoDeposito == '' ?
+
+                                           context
                                           .watch<DepositoProvider>()
                                           .depositos
                                           .map(
-                                            (deposito) => Padding(
+                                            (deposito) =>
+                                                Padding(
                                               padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
                                               child: Container(
                                                 decoration: BoxDecoration(
@@ -256,7 +281,11 @@ class _DepositoWebState extends State<DepositoWeb> {
                                                   ),
                                                 ),
                                                 child: ListTile(
-                                                  onTap: () {},
+                                                  onTap: () {
+                                                    Provider.of<DepositoProvider>(context, listen: false).selecionadaDeposito(deposito.uid.toString());
+                                                    Navigator.pushReplacementNamed(context, '/produtos');
+
+                                                  },
                                                   leading: Padding(
                                                     padding: EdgeInsets.symmetric(horizontal: 15),
                                                     child: CircleAvatar(
@@ -271,7 +300,7 @@ class _DepositoWebState extends State<DepositoWeb> {
                                                   title: Row(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text(deposito.nomeEmpresa),
+                                                      Text(deposito.nomeDeposito),
                                                       const SizedBox(
                                                         width: 30,
                                                       ),
@@ -310,8 +339,87 @@ class _DepositoWebState extends State<DepositoWeb> {
                                                 ),
                                               ),
                                             ),
-                                          )
-                                          .toList(),
+                                          ).toList()
+                                          :
+                                          context
+                                          .watch<DepositoProvider>()
+                                          .depositos.where((element) => element.nomeDeposito.toLowerCase().contains(context.watch<DepositoProvider>().textFiltroDiretoDeposito.toLowerCase()))
+                                          .map(
+                                            (deposito) => Padding(
+                                          padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.5),
+                                                  spreadRadius: 3,
+                                                  blurRadius: 7,
+                                                  offset: const Offset(0, 3), // changes position of shadow
+                                                ),
+                                              ],
+                                              borderRadius: const BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                            ),
+                                            child: ListTile(
+                                              onTap: () {
+                                                Navigator.pushReplacementNamed(context, '/produtos');
+                                              },
+                                              leading: Padding(
+                                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                                child: CircleAvatar(
+                                                  backgroundColor: Colors.orange.shade300,
+                                                  child: const Icon(
+                                                    Icons.widgets,
+                                                    size: 25,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              title: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(deposito.nomeDeposito),
+                                                  const SizedBox(
+                                                    width: 30,
+                                                  ),
+                                                  Text(
+                                                    'CNPJ: ${deposito.endereco}',
+                                                    style: TextStyle(color: Colors.black54),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 30,
+                                                  ),
+                                                  Text(
+                                                    'Telefone: ${deposito.telefone}',
+                                                    style: TextStyle(color: Colors.black54),
+                                                  ),
+                                                ],
+                                              ),
+                                              subtitle: Text(deposito.descricao),
+                                              trailing: Material(
+                                                color: Colors.transparent,
+                                                child: InkWell(
+                                                  hoverColor: Colors.grey.shade100,
+                                                  focusColor: Colors.yellow,
+                                                  splashColor: Colors.yellow,
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  onTap: () async {
+                                                    ModalDetalhesDaDeposito(context, deposito);
+                                                  },
+                                                  child: ButtonSmallIcon(
+                                                    context,
+                                                    Icons.edit,
+                                                    Colors.grey.shade100,
+                                                    Colors.grey,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ).toList()
                                     ),
                                   ),
                                 ),

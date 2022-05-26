@@ -36,73 +36,76 @@ ModalCadastraDeposito(BuildContext context) {
               child: Container(
                 child: Form(
                   key: _formKeyCadastraDeposito,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 25, bottom: 40),
-                          child: Text(
-                            'Cadastre seu deposito',
-                            style: TextStyle(color: Colors.black54, fontSize: 23),
-                          ),
-                        ),
-                      ),
-                      TextFieldCadastro('Nome', _nomeDepositoController, TextInputType.text, true),
-                     // TextFieldCadastro('Nome Fantasia', _nomeFantasiaEmpresaController, TextInputType.text, true),
-                      TextFieldCadastro('Descrição', _descricaoDepositoController, TextInputType.text, false),
-                      //TextFieldCadastro('CNPJ', _cnpjEmpresaController, TextInputType.number, true),
-                      TextFieldCadastro('Telefone', _telefoneDepositoController, TextInputType.phone, false, mask: maskTelefone),
-                      TextFieldCadastro('Segmento', _segmentoDepositoController, TextInputType.text, false),
-                      TextFieldCadastro('Endereço', _enderecoDepositoController, TextInputType.text, false),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 5),
-                        child: Container(
-                          width: 140,
-                          height: 40,
-                          child: InkWell(
-                            onTap: () {
-                              if (_formKeyCadastraDeposito.currentState!.validate()) {
-                                CadastraDeposito(
-                                  context,
-                                  _nomeDepositoController.text,
-                                  _descricaoDepositoController.text,
-                                  _telefoneDepositoController.text,
-                                  _segmentoDepositoController.text,
-                                  _enderecoDepositoController.text
-                                );
-                                // CadastraEmpresa(
-                                //     context,
-                                //     _nomeEmpresaController.text,
-                                //     _nomeFantasiaEmpresaController.text,
-                                //     _descricaoEmpresaController.text,
-                                //     //_cnpjEmpresaController.text,
-                                //     _telefoneEmpresaController.text,
-                                //     _segmentoEmpresaController.text,
-                                //     _enderecoEmpresaController.text
-                                // ).then((value){
-                                //   if(!value){
-                                //     Provider.of<HomeProvicer>(context,listen: false).AtualizaListaDeEmpresasProvider();
-                                //   }
-                                //});
-
-                              } else {
-                                ///TRATAR
-                              }
-                            },
-                            child: buttonAverageTitleIconColor(
-                              name: 'Cadastrar',
-                              iconDoButton: Icons.add_business,
-                              corDoTexto: Colors.white,
-                              corDoIcon: Colors.white,
-                              corDoBotao: Colors.blue,
+                  child:SingleChildScrollView(
+                    child:
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 25, bottom: 40),
+                            child: Text(
+                              'Cadastre seu deposito',
+                              style: TextStyle(color: Colors.black54, fontSize: 23),
                             ),
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                        TextFieldCadastro('Nome', _nomeDepositoController, TextInputType.text, true),
+                        // TextFieldCadastro('Nome Fantasia', _nomeFantasiaEmpresaController, TextInputType.text, true),
+                        TextFieldCadastro('Descrição', _descricaoDepositoController, TextInputType.text, false),
+                        //TextFieldCadastro('CNPJ', _cnpjEmpresaController, TextInputType.number, true),
+                        TextFieldCadastro('Telefone', _telefoneDepositoController, TextInputType.phone, false, mask: maskTelefone),
+                        TextFieldCadastro('Segmento', _segmentoDepositoController, TextInputType.text, false),
+                        TextFieldCadastro('Endereço', _enderecoDepositoController, TextInputType.text, false),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 5),
+                          child: Container(
+                            width: 140,
+                            height: 40,
+                            child: InkWell(
+                              onTap: () {
+                                if (_formKeyCadastraDeposito.currentState!.validate()) {
+                                  CadastraDeposito(
+                                      context,
+                                      _nomeDepositoController.text,
+                                      _descricaoDepositoController.text,
+                                      _telefoneDepositoController.text,
+                                      _segmentoDepositoController.text,
+                                      _enderecoDepositoController.text
+                                  );
+                                  // CadastraEmpresa(
+                                  //     context,
+                                  //     _nomeEmpresaController.text,
+                                  //     _nomeFantasiaEmpresaController.text,
+                                  //     _descricaoEmpresaController.text,
+                                  //     //_cnpjEmpresaController.text,
+                                  //     _telefoneEmpresaController.text,
+                                  //     _segmentoEmpresaController.text,
+                                  //     _enderecoEmpresaController.text
+                                  // ).then((value){
+                                  //   if(!value){
+                                  //     Provider.of<HomeProvicer>(context,listen: false).AtualizaListaDeEmpresasProvider();
+                                  //   }
+                                  //});
+
+                                } else {
+                                  ///TRATAR
+                                }
+                              },
+                              child: buttonAverageTitleIconColor(
+                                name: 'Cadastrar',
+                                iconDoButton: Icons.add_business,
+                                corDoTexto: Colors.white,
+                                corDoIcon: Colors.white,
+                                corDoBotao: Colors.blue,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
                 ),
               )
             ),
@@ -130,11 +133,11 @@ ModalCadastraDeposito(BuildContext context) {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: const [
                             Text(
-                              'Ao cadastrar sua empresa, você terá as seguinte funcionalidades;',
+                              'Ao cadastrar seu deposito, você terá as seguinte funcionalidades;',
                               style: TextStyle(color: Colors.black54, fontSize: 18, fontFamily: 'Georgia', fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              ' - Cadastro de vários depósitos.',
+                              ' - Cadastro de produtos.',
                               style: TextStyle(color: Colors.black54, fontSize: 15, fontFamily: 'Georgia'),
                             ),
                             Text(
