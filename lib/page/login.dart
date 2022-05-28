@@ -392,9 +392,6 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
             child: ElevatedButton(
               onPressed: () {
                 if (formKeyCadastroUsuario.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Usuario cadastra')),
-                  );
 
                   ///Cadastrando Usuario
                   CadastraUsuario(context, emailCadastroController.text, senhaCadastroController.text, nomeCadastroController.text, idadeCadastroController.text);
@@ -417,22 +414,30 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
 
 ///Cadastrando usuario
 CadastraUsuario(BuildContext context, String email, String senha, String nome, String idade) async {
-  await _auth.createUserWithEmailAndPassword(email: email, password: senha).then(
-    (auth) {
-      ///Identificando o id do usuario cadatrado para fazer o cadastro do demais dados do usuario como (nome completo e idade)
-      String? idUsuario = auth.user?.uid;
-      print('idUsuario $idUsuario');
+  try{
+    await _auth.createUserWithEmailAndPassword(email: email, password: senha).then(
+          (auth) {
+        ///Identificando o id do usuario cadatrado para fazer o cadastro do demais dados do usuario como (nome completo e idade)
+        String? idUsuario = auth.user?.uid;
+        print('idUsuario $idUsuario');
 
-      Usuario usuario = Usuario(
-        auth.user?.uid ?? '',
-        nome,
-        auth.user?.email ?? '',
-        idade,
-        []
-      );
-      GravaRestanteDosDadosDoUsuario(context, usuario);
-    },
-  );
+        Usuario usuario = Usuario(
+            auth.user?.uid ?? '',
+            nome,
+            auth.user?.email ?? '',
+            idade,
+            []
+        );
+        GravaRestanteDosDadosDoUsuario(context, usuario);
+      },
+    );
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Conta criada com sucesso.')),
+    );
+  }catch(e){
+    print('Algo deu errado na no cadastro do usuario : $e');
+  }
+
 }
 
 Future<bool> LoginUsuario(BuildContext context, String email, String senha) async {
