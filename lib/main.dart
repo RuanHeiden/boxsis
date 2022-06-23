@@ -1,7 +1,9 @@
+import 'package:boxsis/page/home/home.dart';
 import 'package:boxsis/page/login.dart';
 import 'package:boxsis/provider/deposito_provider.dart';
 import 'package:boxsis/provider/login_register_provider.dart';
 import 'package:boxsis/provider/produto_provider.dart';
+import 'package:boxsis/provider/usuario_provider.dart';
 import 'package:boxsis/services/firebase/verifica_usuario_logado.dart';
 import 'package:boxsis/uteis/rotas.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,17 +41,18 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    verificarUsuarioLogado(context);
   }
 
   @override
   Widget build(BuildContext context) {
+
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => LoginRegisterProvider()),
           ChangeNotifierProvider(create: (_) => HomeProvicer()),
           ChangeNotifierProvider(create: (_) => DepositoProvider(),),
-          ChangeNotifierProvider(create: (_) => ProdutoProvider(),)
+          ChangeNotifierProvider(create: (_) => ProdutoProvider(),),
+          ChangeNotifierProvider(create: (_) => UsuarioProvider(),)
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -63,6 +66,7 @@ class _MyAppState extends State<MyApp> {
           ),
           initialRoute: "/",
           onGenerateRoute: Rotas.gerarRota,
+
         )
     );
   }

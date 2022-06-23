@@ -1,14 +1,16 @@
-import 'package:boxsis/modelos/empresa.dart';
+
+import 'package:boxsis/modelos/usuario.dart';
+import 'package:boxsis/page/home/web/depositos_web.dart';
 import 'package:boxsis/page/view-cadastros/cadatra_empresa.dart';
 import 'package:boxsis/page/view_detalhes/detalhes_empresa.dart';
+import 'package:boxsis/page/view_detalhes/detalhes_usuario.dart';
+import 'package:boxsis/provider/deposito_provider.dart';
 import 'package:boxsis/provider/home_empresa.dart';
-import 'package:boxsis/services/empresas_cadastrada.dart';
-import 'package:boxsis/services/firebase/empresa_firestore.dart';
-import 'package:boxsis/themes/colors.dart';
+import 'package:boxsis/provider/usuario_provider.dart';
+import 'package:boxsis/services/firebase/ususario_firebase.dart';
 import 'package:boxsis/view/block_logo_line.dart';
 import 'package:boxsis/view/button/button_average_title_icon_color.dart';
 import 'package:boxsis/view/button/button_small.dart';
-import 'package:boxsis/view/my_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -56,11 +58,46 @@ class _HomeWebState extends State<HomeWeb> {
                 children: [
                   ContainerLogoLine(context),
                   const SizedBox(width: 40.0),
-                  ButtonTopMenuHomePage(context, 'Home'),
+                  InkWell(
+                      onTap: (){
+                        Provider.of<DepositoProvider>(context, listen: false).limpaDepositoSelecionada();
+                        Provider.of<HomeProvicer>(context,listen: false).limpaEmpresaSelecionada();
+                        Navigator.pushReplacementNamed(context, '/home');
+                      },
+                      child: ButtonTopMenuHomePage(context, 'Home' , '/home')
+                  ),
                   const SizedBox(width: 10),
-                  ButtonTopMenuHomePage(context, 'Cadastro'),
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(10)
+                            )
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                        child: Text('Em breve', style: TextStyle(color: Colors.orange, fontSize: 9),),
+                      ),
+                      ButtonTopMenuHomePage(context, 'Cadastro', null),
+                    ],
+                  ),
                   const SizedBox(width: 10),
-                  ButtonTopMenuHomePage(context, 'Dashboard'),
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(10)
+                            )
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                        child: const Text('Em breve', style: TextStyle(color: Colors.orange, fontSize: 9),),
+                      ),
+                      ButtonTopMenuHomePage(context, 'Dashboard', null),
+                    ],
+                  ),
                 ],
               ),
 
@@ -76,11 +113,16 @@ class _HomeWebState extends State<HomeWeb> {
                       borderRadius: BorderRadius.circular(10),
                       onTap: () {
                       },
-                      child: ButtonSmallIcon(
-                        context,
-                        Icons.person,
-                        Colors.grey.shade100,
-                        Colors.grey,
+                      child: InkWell(
+                        child: ButtonSmallIcon(
+                          context,
+                          Icons.person,
+                          Colors.grey.shade100,
+                          Colors.grey,
+                        ),
+                        onTap: (){
+                          modalDadosDoUsuario(context);
+                        },
                       ),
                     ),
                   ),
@@ -271,9 +313,8 @@ class _HomeWebState extends State<HomeWeb> {
                                                   onTap: () {
                                                     ///Salvando no hive a empresa selecionada
                                                     Provider.of<HomeProvicer>(context,listen: false).selecionadaEmpresa(empresa.uid!);
-
                                                     Navigator.pushReplacementNamed(context, '/depositos');
-                                                  },
+                                                   },
                                                   leading:Padding(
                                                     padding: EdgeInsets.symmetric(horizontal: 15),
                                                     child: CircleAvatar(
@@ -464,7 +505,37 @@ class _HomeWebState extends State<HomeWeb> {
       ),
     );
   }
+
 }
+//
+// Future modalDadosDoUsuario(BuildContext context) {
+//   findUsuario(context);
+//   return showDialog(context: context, builder: (BuildContext context){
+//     return AlertDialog(
+//       content: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: [
+//           const Padding(
+//             padding: EdgeInsets.all(8.0),
+//             child: Icon(Icons.person_pin_rounded, color: Colors.grey,size: 80),
+//           ),
+//           Column(
+//             mainAxisAlignment: MainAxisAlignment.start,
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//
+//               Text('Neme: ${context.watch<UsuarioProvider>().nome}'),
+//               Text('E-mail: ${context.watch<UsuarioProvider>().email}'),
+//               Text('Idade: ${context.watch<UsuarioProvider>().idade}'),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   });
+//
+// }
 
 Widget TopContainerCenterPage(BuildContext context, IconData IconContainer, String title, Color color) {
   return Container(

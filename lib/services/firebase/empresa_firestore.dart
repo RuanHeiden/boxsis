@@ -63,7 +63,6 @@ Future<bool> GravaEmpresa(BuildContext context, Empresa empresa, String timeUID)
   }
 }
 
-
 Future<List> getEmpresa() async {
   var idPessoa = _auth.currentUser?.uid;
 
@@ -87,7 +86,6 @@ Future<List> getEmpresa() async {
   return ListaDeEmpresas;
 }
 
-
 Future<List<String>> getEmpresasUsuarioLogado(String idPessoaLogada) async {
   var snapshotsEmpresa = await _firebaseFirestore
       .collection('Usuarios')
@@ -99,7 +97,6 @@ Future<List<String>> getEmpresasUsuarioLogado(String idPessoaLogada) async {
   }
   return arrayDeIdEmpresa;
 }
-
 
 Future<bool> DeletaEmpresa(BuildContext context, Empresa empresa) async {
 

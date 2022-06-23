@@ -1,5 +1,6 @@
 import 'package:boxsis/page/view-cadastros/cadastra_produto.dart';
 import 'package:boxsis/page/view_detalhes/detalhes_produto.dart';
+import 'package:boxsis/page/view_detalhes/detalhes_usuario.dart';
 import 'package:boxsis/provider/deposito_provider.dart';
 import 'package:boxsis/provider/home_empresa.dart';
 import 'package:boxsis/provider/produto_provider.dart';
@@ -49,6 +50,7 @@ class _ProdutoWebState extends State<ProdutoWeb> {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
+                Provider.of<ProdutoProvider>(context, listen: false).limpaListaProdutoProvider();
                 Provider.of<DepositoProvider>(context, listen: false).limpaDepositoSelecionada();
                 Navigator.pushReplacementNamed(context, '/depositos');
               },
@@ -69,9 +71,23 @@ class _ProdutoWebState extends State<ProdutoWeb> {
                 children: [
                   ContainerLogoLine(context),
                   const SizedBox(width: 40.0),
-                  ButtonTopMenuHomePage(context, 'Home'),
+                  ButtonTopMenuHomePage(context, 'Home', '/home'),
                   const SizedBox(width: 10),
-                  ButtonTopMenuHomePage(context, 'Dashboard'),
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(10)
+                            )
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                        child: Text('Em breve', style: TextStyle(color: Colors.orange, fontSize: 9),),
+                      ),
+                      ButtonTopMenuHomePage(context, 'Dashboard' , null),
+                    ],
+                  ),
                 ],
               ),
 
@@ -88,11 +104,16 @@ class _ProdutoWebState extends State<ProdutoWeb> {
                       onTap: () {
                         print('teste');
                       },
-                      child: ButtonSmallIcon(
-                        context,
-                        Icons.person,
-                        Colors.grey.shade100,
-                        Colors.grey,
+                      child: InkWell(
+                        child: ButtonSmallIcon(
+                          context,
+                          Icons.person,
+                          Colors.grey.shade100,
+                          Colors.grey,
+                        ),
+                        onTap: (){
+                          modalDadosDoUsuario(context);
+                        },
                       ),
                     ),
                   ),

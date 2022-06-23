@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:boxsis/modelos/usuario.dart';
 import 'package:boxsis/provider/login_register_provider.dart';
 import 'package:boxsis/services/firebase/auth.dart';
-import 'package:boxsis/themes/colors.dart';
 import 'package:boxsis/services/firebase/verifica_usuario_logado.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,6 +43,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     var MediaHeight = MediaQuery.of(context).size.height;
     var MediaWeigth = MediaQuery.of(context).size.width;
+
+
+    verificarUsuarioLogado(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
@@ -137,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
-                    children: [
+                    children: const [
 
                       CircularProgressIndicator(),
                       SizedBox(
@@ -155,6 +157,8 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+
 }
 
 ///Componentes de Login do usuario
@@ -390,11 +394,12 @@ Widget widgetCadastro(BuildContext context, TextEditingController nomeCadastroCo
           //color: Colors.blue,
           child: InkWell(
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (formKeyCadastroUsuario.currentState!.validate()) {
 
                   ///Cadastrando Usuario
-                  CadastraUsuario(context, emailCadastroController.text, senhaCadastroController.text, nomeCadastroController.text, idadeCadastroController.text);
+                  await CadastraUsuario(context, emailCadastroController.text, senhaCadastroController.text, nomeCadastroController.text, idadeCadastroController.text);
+                  Provider.of<LoginRegisterProvider>(context, listen: false).AbrirOuFecharTelaDeCadastro();
                 }
               },
               child: Padding(
@@ -442,7 +447,6 @@ CadastraUsuario(BuildContext context, String email, String senha, String nome, S
 
 Future<bool> LoginUsuario(BuildContext context, String email, String senha) async {
   try {
-
     Provider.of<LoginRegisterProvider>(context,listen: false).TelaLoadding(true);
     await _auth.signInWithEmailAndPassword(email: email, password: senha).then((auth) {
       String? emailUsuario = auth.user?.uid;
@@ -452,7 +456,7 @@ Future<bool> LoginUsuario(BuildContext context, String email, String senha) asyn
         const SnackBar(content: Text('Processo de Login iniciado')),
       );
 
-      await  Future.delayed(Duration(seconds:3));
+      await  Future.delayed(Duration(seconds: 3));
       ///Navegando para tela de home page
       Navigator.pushReplacementNamed(context, "/home");
     });

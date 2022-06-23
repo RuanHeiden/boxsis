@@ -15,7 +15,11 @@ class DepositoProvider with ChangeNotifier{
   }
 
   limpaListaDeDepositoProvider() {
-    depositos.clear(); //Limpa lista de empresas
+    //depositos.clear(); //Limpa lista de empresas
+    depositos = [];
+    depositoSelecionado = '';
+    textFiltroDiretoDeposito = '';
+
     notifyListeners();
   }
 
