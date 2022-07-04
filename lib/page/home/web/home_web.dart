@@ -1,4 +1,3 @@
-
 import 'package:boxsis/modelos/usuario.dart';
 import 'package:boxsis/page/home/web/depositos_web.dart';
 import 'package:boxsis/page/view-cadastros/cadatra_empresa.dart';
@@ -41,6 +40,7 @@ class _HomeWebState extends State<HomeWeb> {
   }
 
   final _filtroEmpresaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -59,25 +59,25 @@ class _HomeWebState extends State<HomeWeb> {
                   ContainerLogoLine(context),
                   const SizedBox(width: 40.0),
                   InkWell(
-                      onTap: (){
+                      onTap: () {
                         Provider.of<DepositoProvider>(context, listen: false).limpaDepositoSelecionada();
-                        Provider.of<HomeProvicer>(context,listen: false).limpaEmpresaSelecionada();
+                        Provider.of<HomeProvicer>(context, listen: false).limpaEmpresaSelecionada();
                         Navigator.pushReplacementNamed(context, '/home');
                       },
-                      child: ButtonTopMenuHomePage(context, 'Home' , '/home')
-                  ),
+                      child: ButtonTopMenuHomePage(context, 'Home', '/home')),
                   const SizedBox(width: 10),
                   Stack(
                     children: [
                       Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(10)
-                            )
+                        decoration: const BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.all(Radius.circular(10))),
+                        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                        child: const Text(
+                          'Em breve',
+                          style: TextStyle(
+                            color: Colors.orange,
+                            fontSize: 9,
+                          ),
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                        child: Text('Em breve', style: TextStyle(color: Colors.orange, fontSize: 9),),
                       ),
                       ButtonTopMenuHomePage(context, 'Cadastro', null),
                     ],
@@ -86,14 +86,12 @@ class _HomeWebState extends State<HomeWeb> {
                   Stack(
                     children: [
                       Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(10)
-                            )
-                        ),
+                        decoration: const BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.all(Radius.circular(10))),
                         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                        child: const Text('Em breve', style: TextStyle(color: Colors.orange, fontSize: 9),),
+                        child: const Text(
+                          'Em breve',
+                          style: TextStyle(color: Colors.orange, fontSize: 9),
+                        ),
                       ),
                       ButtonTopMenuHomePage(context, 'Dashboard', null),
                     ],
@@ -111,8 +109,7 @@ class _HomeWebState extends State<HomeWeb> {
                       focusColor: Colors.yellow,
                       splashColor: Colors.yellow,
                       borderRadius: BorderRadius.circular(10),
-                      onTap: () {
-                      },
+                      onTap: () {},
                       child: InkWell(
                         child: ButtonSmallIcon(
                           context,
@@ -120,7 +117,7 @@ class _HomeWebState extends State<HomeWeb> {
                           Colors.grey.shade100,
                           Colors.grey,
                         ),
-                        onTap: (){
+                        onTap: () {
                           modalDadosDoUsuario(context);
                         },
                       ),
@@ -195,7 +192,6 @@ class _HomeWebState extends State<HomeWeb> {
                             ),
                             Row(
                               children: [
-
                                 const SizedBox(
                                   width: 30,
                                 ),
@@ -214,7 +210,7 @@ class _HomeWebState extends State<HomeWeb> {
                                           ),
                                           labelText: 'Filtro',
                                         ),
-                                        onChanged: (value){
+                                        onChanged: (value) {
                                           Provider.of<HomeProvicer>(context, listen: false).filtrandoDireto(value);
                                         },
                                       ),
@@ -222,7 +218,6 @@ class _HomeWebState extends State<HomeWeb> {
                                     const SizedBox(
                                       width: 4,
                                     ),
-
                                     Material(
                                       color: Colors.transparent,
                                       child: InkWell(
@@ -268,203 +263,204 @@ class _HomeWebState extends State<HomeWeb> {
                             /// se não, mostrar um text com icon
                             ? Center(
                                 child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Nenhuma Empresa cadastrada !',
-                                    style: TextStyle(color: Colors.grey.shade300, fontSize: 18),
-                                  ),
-                                  Icon(
-                                    Icons.playlist_add_outlined,
-                                    color: Colors.grey.shade300,
-                                    size: 50,
-                                  ),
-                                ],
-                              ),
-                            )
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Nenhuma Empresa cadastrada !',
+                                      style: TextStyle(color: Colors.grey.shade300, fontSize: 18),
+                                    ),
+                                    Icon(
+                                      Icons.playlist_add_outlined,
+                                      color: Colors.grey.shade300,
+                                      size: 50,
+                                    ),
+                                  ],
+                                ),
+                              )
 
                             /// se sim, mostrar a lista
                             : Expanded(
                                 child: Card(
                                   child: SingleChildScrollView(
                                     child: Column(
-                                      children: context.watch<HomeProvicer>().textFiltroDiretoEmpresa == ''
-                                          ? context
-                                          .watch<HomeProvicer>()
-                                          .empresas.map((empresa) => Padding(
-                                              padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey.withOpacity(0.5),
-                                                      spreadRadius: 3,
-                                                      blurRadius: 7,
-                                                      offset: const Offset(0, 3), // changes position of shadow
-                                                    ),
-                                                  ],
-                                                  borderRadius: const BorderRadius.all(
-                                                    Radius.circular(5),
-                                                  ),
-                                                ),
-                                                child: ListTile(
-                                                  onTap: () {
-                                                    ///Salvando no hive a empresa selecionada
-                                                    Provider.of<HomeProvicer>(context,listen: false).selecionadaEmpresa(empresa.uid!);
-                                                    Navigator.pushReplacementNamed(context, '/depositos');
-                                                   },
-                                                  leading:Padding(
-                                                    padding: EdgeInsets.symmetric(horizontal: 15),
-                                                    child: CircleAvatar(
-                                                      backgroundColor: Colors.blue.shade300,
-                                                      child: const Icon(
-                                                        Icons.apartment_outlined,
-                                                        size: 25,
+                                        children: context.watch<HomeProvicer>().textFiltroDiretoEmpresa == ''
+                                            ? context
+                                                .watch<HomeProvicer>()
+                                                .empresas
+                                                .map(
+                                                  (empresa) => Padding(
+                                                    padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
                                                         color: Colors.white,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey.withOpacity(0.5),
+                                                            spreadRadius: 3,
+                                                            blurRadius: 7,
+                                                            offset: const Offset(0, 3), // changes position of shadow
+                                                          ),
+                                                        ],
+                                                        borderRadius: const BorderRadius.all(
+                                                          Radius.circular(5),
+                                                        ),
+                                                      ),
+                                                      child: ListTile(
+                                                        onTap: () {
+                                                          ///Salvando no hive a empresa selecionada
+                                                          Provider.of<HomeProvicer>(context, listen: false).selecionadaEmpresa(empresa.uid!);
+                                                          Navigator.pushReplacementNamed(context, '/depositos');
+                                                        },
+                                                        leading: Padding(
+                                                          padding: EdgeInsets.symmetric(horizontal: 15),
+                                                          child: CircleAvatar(
+                                                            backgroundColor: Colors.blue.shade300,
+                                                            child: const Icon(
+                                                              Icons.apartment_outlined,
+                                                              size: 25,
+                                                              color: Colors.white,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        // leading: const Icon(
+                                                        //   Icons.apartment_outlined,
+                                                        //   size: 40,
+                                                        //   color: Colors.grey,
+                                                        // ),
+                                                        title: Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(empresa.nomeEmpresa),
+                                                            const SizedBox(
+                                                              width: 50,
+                                                            ),
+                                                            Text(
+                                                              'CNPJ: ${empresa.cnpj}',
+                                                              style: TextStyle(color: Colors.black54),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 50,
+                                                            ),
+                                                            Text(
+                                                              'Telefone: ${empresa.telefone}',
+                                                              style: TextStyle(color: Colors.black54),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        subtitle: Text(empresa.descricao),
+                                                        trailing: Material(
+                                                          color: Colors.transparent,
+                                                          child: InkWell(
+                                                            hoverColor: Colors.grey.shade100,
+                                                            focusColor: Colors.yellow,
+                                                            splashColor: Colors.yellow,
+                                                            borderRadius: BorderRadius.circular(10),
+                                                            onTap: () async {
+                                                              ModalDetalhesDaEmpresa(context, empresa);
+                                                            },
+                                                            child: ButtonSmallIcon(
+                                                              context,
+                                                              Icons.edit,
+                                                              Colors.grey.shade100,
+                                                              Colors.grey,
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                  // leading: const Icon(
-                                                  //   Icons.apartment_outlined,
-                                                  //   size: 40,
-                                                  //   color: Colors.grey,
-                                                  // ),
-                                                  title: Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(empresa.nomeEmpresa),
-                                                      const SizedBox(
-                                                        width: 50,
+                                                )
+                                                .toList()
+                                            : context
+                                                .watch<HomeProvicer>()
+                                                .empresas
+                                                .where((element) => element.nomeEmpresa.toLowerCase().contains(context.watch<HomeProvicer>().textFiltroDiretoEmpresa.toLowerCase()))
+                                                .map(
+                                                  (empresa) => Padding(
+                                                    padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey.withOpacity(0.5),
+                                                            spreadRadius: 3,
+                                                            blurRadius: 7,
+                                                            offset: const Offset(0, 3), // changes position of shadow
+                                                          ),
+                                                        ],
+                                                        borderRadius: const BorderRadius.all(
+                                                          Radius.circular(5),
+                                                        ),
                                                       ),
-                                                      Text(
-                                                        'CNPJ: ${empresa.cnpj}',
-                                                        style: TextStyle(color: Colors.black54),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 50,
-                                                      ),
-                                                      Text(
-                                                        'Telefone: ${empresa.telefone}',
-                                                        style: TextStyle(color: Colors.black54),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  subtitle: Text(empresa.descricao),
-                                                  trailing:  Material(
-                                                    color: Colors.transparent,
-                                                    child: InkWell(
-                                                      hoverColor: Colors.grey.shade100,
-                                                      focusColor: Colors.yellow,
-                                                      splashColor: Colors.yellow,
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      onTap: () async {
-                                                        ModalDetalhesDaEmpresa(context, empresa);
-                                                      },
-                                                      child: ButtonSmallIcon(
-                                                        context,
-                                                        Icons.edit,
-                                                        Colors.grey.shade100,
-                                                        Colors.grey,
+                                                      child: ListTile(
+                                                        onTap: () {
+                                                          ///Salvando no hive a empresa selecionada
+                                                          Provider.of<HomeProvicer>(context, listen: false).selecionadaEmpresa(empresa.uid!);
+
+                                                          Navigator.pushReplacementNamed(context, '/depositos');
+                                                        },
+                                                        leading: Padding(
+                                                          padding: EdgeInsets.symmetric(horizontal: 15),
+                                                          child: CircleAvatar(
+                                                            backgroundColor: Colors.blue.shade300,
+                                                            child: const Icon(
+                                                              Icons.apartment_outlined,
+                                                              size: 25,
+                                                              color: Colors.white,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        // leading: const Icon(
+                                                        //   Icons.apartment_outlined,
+                                                        //   size: 40,
+                                                        //   color: Colors.grey,
+                                                        // ),
+                                                        title: Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(empresa.nomeEmpresa),
+                                                            const SizedBox(
+                                                              width: 50,
+                                                            ),
+                                                            Text(
+                                                              'CNPJ: ${empresa.cnpj}',
+                                                              style: TextStyle(color: Colors.black54),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 50,
+                                                            ),
+                                                            Text(
+                                                              'Telefone: ${empresa.telefone}',
+                                                              style: TextStyle(color: Colors.black54),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        subtitle: Text(empresa.descricao),
+                                                        trailing: Material(
+                                                          color: Colors.transparent,
+                                                          child: InkWell(
+                                                            hoverColor: Colors.grey.shade100,
+                                                            focusColor: Colors.yellow,
+                                                            splashColor: Colors.yellow,
+                                                            borderRadius: BorderRadius.circular(10),
+                                                            onTap: () async {
+                                                              ModalDetalhesDaEmpresa(context, empresa);
+                                                            },
+                                                            child: ButtonSmallIcon(
+                                                              context,
+                                                              Icons.edit,
+                                                              Colors.grey.shade100,
+                                                              Colors.grey,
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ),
-                                            ),)
-                                          .toList()
-
-                                          : context.watch<HomeProvicer>().empresas.where((element) =>
-                                            element
-                                                .nomeEmpresa
-                                                .toLowerCase()
-                                                .contains(context.watch<HomeProvicer>().textFiltroDiretoEmpresa.toLowerCase())).map(
-                                            (empresa) => Padding(
-                                          padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey.withOpacity(0.5),
-                                                  spreadRadius: 3,
-                                                  blurRadius: 7,
-                                                  offset: const Offset(0, 3), // changes position of shadow
-                                                ),
-                                              ],
-                                              borderRadius: const BorderRadius.all(
-                                                Radius.circular(5),
-                                              ),
-                                            ),
-                                            child: ListTile(
-                                              onTap: () {
-                                                ///Salvando no hive a empresa selecionada
-                                                Provider.of<HomeProvicer>(context,listen: false).selecionadaEmpresa(empresa.uid!);
-
-                                                Navigator.pushReplacementNamed(context, '/depositos');
-                                              },
-                                              leading:Padding(
-                                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                                child: CircleAvatar(
-                                                  backgroundColor: Colors.blue.shade300,
-                                                  child: const Icon(
-                                                    Icons.apartment_outlined,
-                                                    size: 25,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              // leading: const Icon(
-                                              //   Icons.apartment_outlined,
-                                              //   size: 40,
-                                              //   color: Colors.grey,
-                                              // ),
-                                              title: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(empresa.nomeEmpresa),
-                                                  const SizedBox(
-                                                    width: 50,
-                                                  ),
-                                                  Text(
-                                                    'CNPJ: ${empresa.cnpj}',
-                                                    style: TextStyle(color: Colors.black54),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 50,
-                                                  ),
-                                                  Text(
-                                                    'Telefone: ${empresa.telefone}',
-                                                    style: TextStyle(color: Colors.black54),
-                                                  ),
-                                                ],
-                                              ),
-                                              subtitle: Text(empresa.descricao),
-                                              trailing:  Material(
-                                                color: Colors.transparent,
-                                                child: InkWell(
-                                                  hoverColor: Colors.grey.shade100,
-                                                  focusColor: Colors.yellow,
-                                                  splashColor: Colors.yellow,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  onTap: () async {
-                                                    ModalDetalhesDaEmpresa(context, empresa);
-                                                  },
-                                                  child: ButtonSmallIcon(
-                                                    context,
-                                                    Icons.edit,
-                                                    Colors.grey.shade100,
-                                                    Colors.grey,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                          .toList()
-                                    ),
+                                                )
+                                                .toList()),
                                   ),
                                 ),
                               )
@@ -473,6 +469,7 @@ class _HomeWebState extends State<HomeWeb> {
                   ),
                 ),
               ),
+
               ///Blocos laterais para o dashboard futuros
               Expanded(
                 flex: 0,
@@ -505,7 +502,6 @@ class _HomeWebState extends State<HomeWeb> {
       ),
     );
   }
-
 }
 //
 // Future modalDadosDoUsuario(BuildContext context) {
