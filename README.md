@@ -18,18 +18,18 @@ O projeto Sis.Box tem como proposta ser um gerenciamento de estoque, pensado jus
 
 <h2>Lista do Deposito</h2>
 <img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/list_deposito.png" width="1500"/>
-<h2>Cadastro da Deposito</h2>
+<h2>Cadastro do Deposito</h2>
 <img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/cadastro_deposito.png" width="1500"/>
-<h2>Edita e Excluir a Deposito</h2>
+<h2>Edita e Excluir do Deposito</h2>
 <img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/edit_exclui_deposito.png" width="1500"/>
 
 
 
-<h2>Lista de Produto</h2>
+<h2>Lista do Produto</h2>
 <img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/list_produto.png" width="1500"/>
 <h2>Cadastro do Produto</h2>
 <img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/cadastro_produto.png" width="1500"/>
-<h2>Edita e Excluir a Produto</h2>
+<h2>Edita e Excluir do Produto</h2>
 <img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/edti_exclui_produto.png" width="1500"/>
 
 
