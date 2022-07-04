@@ -1,16 +1,39 @@
-# boxsis
+<h1>Sis.Box (FLUTTER WEB)</h1>
+O projeto Sis.Box tem como proposta ser um gerenciamento de estoque, pensado justamente para o usuário ter mais controle dos seus dados com mais segurança. Trata-se de um projeto experimental (empresa fictícia) com a aplicação da linguagem flutter e dart, com o apoio do sistema de armazenamento de dados não relacional, o Firebase. Esse projeto demonstra todo o caso de uso, que inicia com a criação da conta de acesso ao sistema, até o cadastro de toda a estrutura da empresa, desde o depósito até chegar no produto, que é a proposta central do sistema.
 
-A new Flutter project.
 
-## Getting Started
+<h2>Login do Usuario</h2>
+<img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/login_usuario.png" width="1500"/>
+<h2>Cadastro do Usuario</h2>
+<img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/cadastro_usuario.png" width="1500"/>
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+<h2>Lista da Empresa</h2>
+<img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/list_empresa.png" width="1500"/>
+<h2>Cadastro da Empresa</h2>
+<img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/cadastro_empresa.png" width="1500"/>
+<h2>Edita e Excluir a Empresa</h2>
+<img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/edit_exclui_empresa.png" width="1500"/>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<h2>Lista do Deposito</h2>
+<img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/list_deposito.png" width="1500"/>
+<h2>Cadastro da Deposito</h2>
+<img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/cadastro_deposito.png" width="1500"/>
+<h2>Edita e Excluir a Deposito</h2>
+<img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/edit_exclui_deposito.png" width="1500"/>
+
+
+
+<h2>Lista de Produto</h2>
+<img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/list_produto.png" width="1500"/>
+<h2>Cadastro do Produto</h2>
+<img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/cadastro_produto.png" width="1500"/>
+<h2>Edita e Excluir a Produto</h2>
+<img src="https://github.com/RuanHeiden/boxsis/blob/main/img/img%20git/edti_exclui_produto.png" width="1500"/>
+
+
+
+Um sistema desenvolvido a fim de apresentar no Seminário Interdisciplinar acadêmico no dia 23/06/2022
+
+ 
